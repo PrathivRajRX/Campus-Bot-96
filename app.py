@@ -261,15 +261,27 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("**Quick Information**")
+    
+    st.markdown("### 💡 Quick Information")
 
-    st.markdown("""
-    - College information
-    - Courses and programmes
-    - Admissions
-    - Examinations
-    - Campus facilities
-    """)
+    quick_questions = {
+        "🏫 College Information": "Tell me about National College",
+        "📚 Courses & Programmes": "Which courses are available?",
+        "🎓 Admissions": "How can I get admission?",
+        "📝 Examinations": "Tell me about examinations",
+        "🏛️ Campus Facilities": "What facilities are available?"
+    }
+
+    for label, query in quick_questions.items():
+
+        if st.button(
+            label,
+            key=f"quick_{label}",
+            use_container_width=True
+        ):
+            st.session_state.pending_question = query
+            st.rerun()
+
 
     st.markdown("---")
 

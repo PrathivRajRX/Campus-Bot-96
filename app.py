@@ -231,6 +231,99 @@ h1, h2, h3 {
     }
 }
 
+/* =====================================
+   MOBILE TEXT READABILITY FIX
+===================================== */
+
+@media (max-width: 768px) {
+
+    /* Main text */
+    .stApp,
+    .stApp p,
+    .stApp li,
+    .stApp label,
+    .stMarkdown,
+    .stMarkdown p {
+        color: #F1F5F9 !important;
+        opacity: 1 !important;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4, h5 {
+        color: #FFFFFF !important;
+        opacity: 1 !important;
+    }
+
+    /* Captions */
+    .stCaption,
+    [data-testid="stCaptionContainer"] p {
+        color: #CBD5E1 !important;
+        opacity: 1 !important;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] label {
+        color: #F1F5F9 !important;
+        opacity: 1 !important;
+    }
+
+    /* Buttons */
+    div.stButton > button {
+        color: #FFFFFF !important;
+        background: #263B45 !important;
+        border: 1px solid #526773 !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+        min-height: 48px;
+    }
+
+    /* Input fields */
+    div[data-testid="stChatInput"] textarea,
+    .stTextInput input,
+    .stTextArea textarea {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+        font-size: 16px !important;
+    }
+
+    /* Input placeholder */
+    div[data-testid="stChatInput"] textarea::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+        color: #CBD5E1 !important;
+        opacity: 1 !important;
+    }
+
+    /* Chat messages */
+    div[data-testid="stChatMessage"] p {
+        color: #FFFFFF !important;
+        font-size: 16px !important;
+        line-height: 1.7 !important;
+    }
+
+    /* Message timestamps */
+    div[data-testid="stChatMessage"] [data-testid="stCaptionContainer"] p {
+        color: #D1E5DF !important;
+        font-size: 11px !important;
+    }
+
+    /* Welcome card */
+    .welcome-card p {
+        color: #E2E8F0 !important;
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+    }
+
+    /* Remove faded text effects */
+    .stMarkdown,
+    .stCaption,
+    .stButton {
+        opacity: 1 !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 

@@ -12,9 +12,6 @@ import pandas as pd
 
 from styles.theme import apply_theme
 
-# ==================================================
-# CONFIGURATION
-# ==================================================
 
 BASE_DIR = Path(__file__).resolve().parent
 COMPLAINTS_FILE = BASE_DIR / "complaints.json"
@@ -39,9 +36,6 @@ DEPARTMENTS = [
     "Other",
 ]
 
-# ==================================================
-# PAGE SETUP
-# ==================================================
 
 st.set_page_config(
     page_title="CampusBot Admin | Team96",
@@ -120,9 +114,6 @@ div[data-testid="stMetricValue"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ==================================================
-# DATA HELPERS
-# ==================================================
 
 def load_json(path, default):
     if not path.exists():
@@ -262,9 +253,6 @@ def update_faq_questions(faq, questions):
         faq.pop("question", None)
 
 
-# ==================================================
-# LOGIN
-# ==================================================
 
 if not ADMIN_PASSWORD:
     st.error(
@@ -309,9 +297,6 @@ if not st.session_state.admin_authenticated:
 
     st.stop()
 
-# ==================================================
-# SIDEBAR
-# ==================================================
 
 with st.sidebar:
     st.markdown("## 🎓 CampusBot")
@@ -330,9 +315,6 @@ with st.sidebar:
     st.caption("TEAM96 · CAMPUSBOT")
     st.caption("Administration Portal")
 
-# ==================================================
-# HEADER AND DATA
-# ==================================================
 
 st.markdown("""
 <div class="admin-hero">
@@ -351,9 +333,6 @@ dashboard_tab, complaints_tab, faq_tab = st.tabs([
     "📚 Manage FAQs",
 ])
 
-# ==================================================
-# DASHBOARD
-# ==================================================
 
 with dashboard_tab:
 
@@ -469,9 +448,6 @@ with dashboard_tab:
                 )
 
 
-# ==================================================
-# COMPLAINT MANAGEMENT
-# ==================================================
 
 with complaints_tab:
 
@@ -750,9 +726,6 @@ with complaints_tab:
             use_container_width=True,
         )
 
-# ==================================================
-# FAQ MANAGEMENT
-# ==================================================
 
 with faq_tab:
 
@@ -933,9 +906,7 @@ with faq_tab:
                         st.success("FAQ deleted successfully.")
                         st.rerun()
 
-# ==================================================
-# FOOTER
-# ==================================================
+
 
 st.markdown("""
 <div class="admin-footer">

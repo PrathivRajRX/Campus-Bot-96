@@ -9,9 +9,6 @@ import streamlit as st
 from styles.theme import apply_theme, brand_header, hero, footer
 
 
-# ==================================================
-# CONFIGURATION
-# ==================================================
 
 st.set_page_config(
     page_title="CampusBot | Complaints",
@@ -25,9 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 FILE = BASE_DIR / "complaints.json"
 
 
-# ==================================================
-# DATABASE FUNCTIONS
-# ==================================================
 
 def load_complaints():
 
@@ -60,9 +54,7 @@ def save_complaints(data):
     temp_file.replace(FILE)
 
 
-# ==================================================
-# BRANDING
-# ==================================================
+
 
 brand_header()
 
@@ -73,9 +65,6 @@ hero(
 )
 
 
-# ==================================================
-# SESSION STATE
-# ==================================================
 
 if "new_complaint_id" not in st.session_state:
     st.session_state.new_complaint_id = None
@@ -87,9 +76,6 @@ if "tracking_attempted" not in st.session_state:
     st.session_state.tracking_attempted = False
 
 
-# ==================================================
-# PORTAL TABS
-# ==================================================
 
 submit_tab, track_tab = st.tabs([
     "📝 Submit Complaint",
@@ -97,9 +83,6 @@ submit_tab, track_tab = st.tabs([
 ])
 
 
-# ==================================================
-# SUBMIT COMPLAINT
-# ==================================================
 
 with submit_tab:
 
@@ -212,10 +195,7 @@ with submit_tab:
             use_container_width=True
         )
 
-        # ==================================================
-        # VALIDATION AND SAVE
-        # ==================================================
-
+    
         if submitted:
 
             name = name.strip()
@@ -315,9 +295,6 @@ with submit_tab:
                     )
 
 
-    # ==================================================
-    # SUCCESS CARD
-    # ==================================================
 
     if st.session_state.new_complaint_id:
 
@@ -346,10 +323,6 @@ with submit_tab:
             st.session_state.new_complaint_id = None
             st.rerun()
 
-
-# ==================================================
-# TRACK COMPLAINT
-# ==================================================
 
 with track_tab:
 
@@ -396,9 +369,6 @@ with track_tab:
             st.session_state.tracking_attempted = True
 
 
-    # ==================================================
-    # DISPLAY TRACKING RESULT
-    # ==================================================
 
     result = st.session_state.tracked_complaint
 
@@ -457,9 +427,6 @@ with track_tab:
                 st.info("Submitted")
 
 
-        # ==================================================
-        # STATUS TIMELINE
-        # ==================================================
 
         st.markdown("### 📍 Complaint Progress")
 
@@ -496,10 +463,7 @@ with track_tab:
                     st.caption(f"○ {stage} — Pending")
 
 
-        # ==================================================
-        # DEPARTMENT
-        # ==================================================
-
+    
         st.markdown("### 🏢 Department Information")
 
         department = result.get(
@@ -512,10 +476,7 @@ with track_tab:
         )
 
 
-        # ==================================================
-        # ADMIN REMARKS
-        # ==================================================
-
+    
         st.markdown("### 💬 Administration Remarks")
 
         remarks = result.get("admin_remarks", "")
@@ -542,10 +503,6 @@ with track_tab:
         )
 
 
-# ==================================================
-# PRIVACY NOTE
-# ==================================================
-
 st.info(
     "Privacy note: Anonymous submissions do not request "
     "contact details. Do not include your identity in the "
@@ -553,9 +510,5 @@ st.info(
     "The hosting platform may still retain technical logs."
 )
 
-
-# ==================================================
-# FOOTER
-# ==================================================
 
 footer()

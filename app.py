@@ -6,9 +6,6 @@ from datetime import datetime
 import json
 from pathlib import Path
 
-# ==================================================
-# CAMPUSBOT BY TEAM96 - STUDENT CHAT
-# ==================================================
 
 st.set_page_config(
     page_title="CampusBot | National College",
@@ -19,9 +16,6 @@ st.set_page_config(
 
 apply_theme()
 
-# ==================================================
-# WHATSAPP-INSPIRED DESIGN + MOBILE FIX
-# ==================================================
 
 st.markdown(
     """
@@ -215,9 +209,6 @@ st.markdown(
 )
 
 
-# ==================================================
-# FAQ-BASED SUGGESTIONS
-# ==================================================
 
 def load_suggestion_faqs():
     faq_path = Path(__file__).resolve().parent / "faqs.json"
@@ -311,9 +302,6 @@ FIRST_VISIT_QUESTIONS = [
 ]
 
 
-# ==================================================
-# SESSION STATE
-# ==================================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -322,9 +310,6 @@ if "pending_question" not in st.session_state:
     st.session_state.pending_question = None
 
 
-# ==================================================
-# SIDEBAR
-# ==================================================
 
 with st.sidebar:
 
@@ -394,9 +379,6 @@ with st.sidebar:
     )
 
 
-# ==================================================
-# MAIN CHAT HEADER
-# ==================================================
 
 st.markdown(
     """
@@ -414,9 +396,6 @@ st.markdown(
 )
 
 
-# ==================================================
-# COMPLAINT NAVIGATION
-# ==================================================
 
 st.markdown("### Student Support")
 
@@ -435,9 +414,6 @@ st.caption(
 st.divider()
 
 
-# ==================================================
-# WELCOME MESSAGE
-# ==================================================
 
 if not st.session_state.messages:
 
@@ -459,9 +435,6 @@ if not st.session_state.messages:
     )
 
 
-# ==================================================
-# DISPLAY CHAT HISTORY
-# ==================================================
 
 for message in st.session_state.messages:
 
@@ -476,9 +449,6 @@ for message in st.session_state.messages:
             st.caption(message["timestamp"])
 
 
-# ==================================================
-# DYNAMIC SUGGESTED QUESTIONS
-# ==================================================
 
 if st.session_state.messages:
 
@@ -532,9 +502,6 @@ if suggested_questions:
                 st.rerun()
 
 
-# ==================================================
-# CHAT INPUT
-# ==================================================
 
 question = st.chat_input("Message CampusBot...")
 
@@ -544,9 +511,6 @@ if st.session_state.pending_question:
     st.session_state.pending_question = None
 
 
-# ==================================================
-# PROCESS QUESTION
-# ==================================================
 
 if question:
 
@@ -589,9 +553,6 @@ if question:
         st.rerun()
 
 
-# ==================================================
-# FOOTER
-# ==================================================
 
 st.markdown("---")
 footer()

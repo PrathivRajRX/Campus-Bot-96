@@ -205,6 +205,24 @@ def find_complaint(complaints, complaint_id):
     return None
 
 
+def get_complaint_type(complaint):
+    """
+    Identify new and older complaint records.
+    Older records with no personal details are treated as anonymous.
+    """
+    complaint_type = complaint.get("complaint_type")
+
+    if complaint_type:
+        return str(complaint_type).strip().title()
+
+    has_personal_details = any(
+        str(complaint.get(field, "")).strip()
+        for field in ("name", "email", "phone")
+    )
+
+    return "Identified" if has_personal_details else "Anonymous"
+
+
 def add_activity(complaint, action, details):
     history = complaint.get("activity_history", [])
 
@@ -409,16 +427,39 @@ with dashboard_tab:
             reverse=True,
         )[:8]
 
+        
         for complaint in recent:
             complaint_id = complaint.get("id", "Unknown")
             subject = complaint.get("subject", "No subject")
             status = complaint.get("status", "Submitted")
+            complaint_type = get_complaint_type(complaint)
             color = status_color(status)
 
-            with st.expander(f"{complaint_id} · {subject}"):
-                st.write(f"**Student:** {complaint.get('name', 'N/A')}")
-                st.write(f"**Category:** {complaint.get('category', 'N/A')}")
-                st.write(f"**Submitted:** {format_date(complaint.get('submitted_at'))}")
+            with st.expander(
+                f"{complaint_id} · {complaint_type} · {subject}"
+            ):
+                if complaint_type == "Anonymous":
+                    st.success("🔒 Anonymous Complaint")
+                    st.caption(
+                        "No personal contact details were requested."
+                    )
+                else:
+                    st.write(
+                        f"**Student:** {complaint.get('name', 'N/A')}"
+                    )
+                    st.write(
+                        f"**Email:** {complaint.get('email', 'N/A')}"
+                    )
+                    st.write(
+                        f"**Phone:** {complaint.get('phone', 'N/A')}"
+                    )
+
+                st.write(
+                    f"**Category:** {complaint.get('category', 'N/A')}"
+                )
+                st.write(
+                    f"**Submitted:** {format_date(complaint.get('submitted_at'))}"
+                )
                 st.markdown(
                     f"**Status:** <span style='color:{color};font-weight:700'>{status}</span>",
                     unsafe_allow_html=True,
@@ -426,8 +467,7 @@ with dashboard_tab:
                 st.write(
                     f"**Department:** {complaint.get('assigned_department', 'Not Assigned')}"
                 )
-    else:
-        st.info("No complaints have been submitted yet.")
+
 
 # ==================================================
 # COMPLAINT MANAGEMENT
@@ -474,7 +514,10 @@ with complaints_tab:
                 str(complaint.get("name", "")),
                 str(complaint.get("email", "")),
                 str(complaint.get("subject", "")),
+                str(complaint.get("category", "")),
+                get_complaint_type(complaint),
             ]).lower()
+
 
             if search_text and search_text not in searchable:
                 continue
@@ -501,20 +544,56 @@ with complaints_tab:
 
                 details_col, update_col = st.columns([1, 1])
 
+                
                 with details_col:
-                    st.markdown("### Student Details")
-                    st.write(f"**Name:** {complaint.get('name', 'N/A')}")
-                    st.write(f"**Email:** {complaint.get('email', 'N/A')}")
-                    st.write(f"**Phone:** {complaint.get('phone', 'N/A')}")
+                    complaint_type = get_complaint_type(complaint)
+
+                    st.markdown("### Complaint Submitted By")
+
+                    if complaint_type == "Anonymous":
+                        st.success("🔒 Anonymous Complaint")
+                        st.markdown(
+                            """
+                            **Student identity:** Not provided
+
+                            **Email:** Not provided
+
+                            **Phone:** Not provided
+                            """
+                        )
+                        st.caption(
+                            "This complaint was submitted anonymously. "
+                            "The administration cannot contact the "
+                            "student using this record."
+                        )
+                    else:
+                        st.info("👤 Identified Complaint")
+                        st.write(
+                            f"**Name:** {complaint.get('name') or 'N/A'}"
+                        )
+                        st.write(
+                            f"**Email:** {complaint.get('email') or 'N/A'}"
+                        )
+                        st.write(
+                            f"**Phone:** {complaint.get('phone') or 'N/A'}"
+                        )
 
                     st.divider()
                     st.markdown("### Complaint Details")
                     st.write(f"**ID:** {complaint_id}")
-                    st.write(f"**Category:** {complaint.get('category', 'N/A')}")
+                    st.write(f"**Type:** {complaint_type}")
+                    st.write(
+                        f"**Category:** {complaint.get('category', 'N/A')}"
+                    )
                     st.write(f"**Subject:** {subject}")
-                    st.write(f"**Submitted:** {format_date(complaint.get('submitted_at'))}")
+                    st.write(
+                        f"**Submitted:** {format_date(complaint.get('submitted_at'))}"
+                    )
                     st.markdown("**Description**")
-                    st.write(complaint.get("description", "No description"))
+                    st.write(
+                        complaint.get("description", "No description")
+                    )
+
 
                 with update_col:
                     st.markdown("### Update Complaint")
@@ -624,8 +703,10 @@ with complaints_tab:
 
         csv_buffer = io.StringIO()
 
+        
         fieldnames = [
             "id",
+            "complaint_type",
             "name",
             "email",
             "phone",
@@ -638,6 +719,20 @@ with complaints_tab:
             "submitted_at",
         ]
 
+        export_complaints = []
+
+        for complaint in complaints:
+            row = complaint.copy()
+            row["complaint_type"] = get_complaint_type(complaint)
+
+            if row["complaint_type"] == "Anonymous":
+                row["name"] = ""
+                row["email"] = ""
+                row["phone"] = ""
+
+            export_complaints.append(row)
+
+
         writer = csv.DictWriter(
             csv_buffer,
             fieldnames=fieldnames,
@@ -645,7 +740,7 @@ with complaints_tab:
         )
 
         writer.writeheader()
-        writer.writerows(complaints)
+        writer.writerows(export_complaints)
 
         st.download_button(
             "⬇️ Download All Complaints (CSV)",

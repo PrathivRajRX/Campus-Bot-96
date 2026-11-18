@@ -1,7 +1,6 @@
 
 import streamlit as st
 
-
 # ==========================================
 # CAMPUSBOT BY TEAM96 - DESIGN SYSTEM
 # ==========================================
@@ -51,8 +50,8 @@ def apply_theme():
         }}
 
         html, body, [class*="css"] {{
-            font-family: Inter, -apple-system, BlinkMacSystemFont,
-                         "Segoe UI", sans-serif;
+            font-family: Inter, -apple-system,
+                         BlinkMacSystemFont, "Segoe UI", sans-serif;
         }}
 
         /* TEXT */
@@ -68,7 +67,7 @@ def apply_theme():
         }}
 
         [data-testid="stCaptionContainer"] {{
-            color: {MUTED};
+            color: #CBD5E1 !important;
         }}
 
         /* SIDEBAR */
@@ -82,6 +81,10 @@ def apply_theme():
             padding-top: 2rem;
         }}
 
+        [data-testid="stSidebar"] * {{
+            color: {TEXT};
+        }}
+
         [data-testid="stSidebar"] a {{
             border-radius: 10px;
         }}
@@ -92,9 +95,18 @@ def apply_theme():
         .stTextArea textarea,
         .stNumberInput input {{
             background: {CARD} !important;
-            color: {TEXT} !important;
+            color: #FFFFFF !important;
+            -webkit-text-fill-color: #FFFFFF !important;
             border: 1px solid {BORDER} !important;
             border-radius: 10px !important;
+            caret-color: #FFFFFF !important;
+        }}
+
+        .stTextInput input::placeholder,
+        .stTextArea textarea::placeholder {{
+            color: #CBD5E1 !important;
+            -webkit-text-fill-color: #CBD5E1 !important;
+            opacity: 1 !important;
         }}
 
         .stTextInput input:focus,
@@ -107,7 +119,30 @@ def apply_theme():
             background: {CARD} !important;
             border-color: {BORDER} !important;
             border-radius: 10px !important;
-            color: {TEXT} !important;
+            color: #FFFFFF !important;
+        }}
+
+        /* CHAT INPUT */
+
+        div[data-testid="stChatInput"] {{
+            background: #202C33 !important;
+            border: 1px solid #526773 !important;
+            border-radius: 15px !important;
+        }}
+
+        div[data-testid="stChatInput"] textarea,
+        div[data-testid="stChatInput"] textarea:focus {{
+            color: #FFFFFF !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+            caret-color: #FFFFFF !important;
+            opacity: 1 !important;
+            font-size: 16px !important;
+        }}
+
+        div[data-testid="stChatInput"] textarea::placeholder {{
+            color: #D1D5DB !important;
+            -webkit-text-fill-color: #D1D5DB !important;
+            opacity: 1 !important;
         }}
 
         /* BUTTONS */
@@ -116,7 +151,7 @@ def apply_theme():
         .stFormSubmitButton button,
         .stDownloadButton button {{
             background: {PRIMARY};
-            color: white !important;
+            color: #FFFFFF !important;
             border: 1px solid {PRIMARY};
             border-radius: 10px;
             min-height: 42px;
@@ -132,6 +167,16 @@ def apply_theme():
             transform: translateY(-1px);
         }}
 
+        /* PAGE LINKS */
+
+        [data-testid="stPageLink"] a {{
+            background: {PRIMARY};
+            color: #FFFFFF !important;
+            border-radius: 10px;
+            min-height: 44px;
+            font-weight: 600;
+        }}
+
         /* CARDS */
 
         [data-testid="stMetric"] {{
@@ -142,11 +187,11 @@ def apply_theme():
         }}
 
         [data-testid="stMetricLabel"] {{
-            color: {MUTED};
+            color: {MUTED} !important;
         }}
 
         [data-testid="stMetricValue"] {{
-            color: {TEXT};
+            color: {TEXT} !important;
         }}
 
         /* CONTAINERS */
@@ -181,7 +226,13 @@ def apply_theme():
         /* CHECKBOX */
 
         [data-testid="stCheckbox"] label {{
-            color: {TEXT};
+            color: {TEXT} !important;
+        }}
+
+        /* RADIO BUTTONS */
+
+        [data-testid="stRadio"] label {{
+            color: {TEXT} !important;
         }}
 
         /* ALERTS */
@@ -203,7 +254,7 @@ def apply_theme():
             border-radius: 12px;
         }}
 
-        /* CUSTOM BRANDING */
+        /* BRANDING */
 
         .brand-header {{
             display: flex;
@@ -254,13 +305,13 @@ def apply_theme():
         }}
 
         .hero-title {{
-            color: white;
+            color: #FFFFFF;
             font-size: 32px;
             font-weight: 800;
         }}
 
         .hero-subtitle {{
-            color: #B5C5DB;
+            color: #D1DCEB;
             font-size: 15px;
         }}
 
@@ -278,7 +329,7 @@ def apply_theme():
         @media(max-width: 768px) {{
 
             .block-container {{
-                padding: 1rem;
+                padding: 1rem 10px 5rem;
             }}
 
             .hero-title {{
@@ -289,6 +340,50 @@ def apply_theme():
                 font-size: 21px;
             }}
 
+            .stApp,
+            .stApp p,
+            .stApp li,
+            .stApp label,
+            .stMarkdown,
+            .stMarkdown p {{
+                color: #F1F5F9 !important;
+                opacity: 1 !important;
+            }}
+
+            h1, h2, h3, h4, h5 {{
+                color: #FFFFFF !important;
+                opacity: 1 !important;
+            }}
+
+            .stCaption,
+            [data-testid="stCaptionContainer"] p {{
+                color: #CBD5E1 !important;
+                opacity: 1 !important;
+            }}
+
+            div[data-testid="stChatInput"] textarea,
+            div[data-testid="stChatInput"] textarea:focus,
+            .stTextInput input,
+            .stTextArea textarea {{
+                color: #FFFFFF !important;
+                -webkit-text-fill-color: #FFFFFF !important;
+                caret-color: #FFFFFF !important;
+                font-size: 16px !important;
+            }}
+
+            div[data-testid="stChatInput"] textarea::placeholder,
+            input::placeholder,
+            textarea::placeholder {{
+                color: #CBD5E1 !important;
+                -webkit-text-fill-color: #CBD5E1 !important;
+                opacity: 1 !important;
+            }}
+
+            .stButton button {{
+                color: #FFFFFF !important;
+                opacity: 1 !important;
+                min-height: 48px;
+            }}
         }}
 
         </style>
@@ -296,6 +391,10 @@ def apply_theme():
         unsafe_allow_html=True
     )
 
+
+# ==========================================
+# BRAND HEADER
+# ==========================================
 
 def brand_header():
 
@@ -313,18 +412,27 @@ def brand_header():
     )
 
 
+# ==========================================
+# FOOTER
+# ==========================================
+
 def footer():
 
     st.markdown(
         """
         <div class="custom-footer">
             CAMPUSBOT BY TEAM96<br>
-            J PRATHIV RAJ SHASHANK SIDDHARTH · NATIONAL COLLEGE, BASAVANAGUDI
+            J PRATHIV RAJ SHASHANK SIDDHARTH
+            · NATIONAL COLLEGE, BASAVANAGUDI
         </div>
         """,
         unsafe_allow_html=True
     )
 
+
+# ==========================================
+# HERO
+# ==========================================
 
 def hero(title, subtitle):
 

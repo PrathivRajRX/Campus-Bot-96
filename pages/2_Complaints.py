@@ -1,18 +1,17 @@
 
-import streamlit as st
 import json
-import uuid
 import re
-
-from pathlib import Path
+import uuid
 from datetime import datetime
+from pathlib import Path
 
+import streamlit as st
 from styles.theme import apply_theme, brand_header, hero, footer
 
 
-# ==========================================
+# ==================================================
 # CONFIGURATION
-# ==========================================
+# ==================================================
 
 st.set_page_config(
     page_title="CampusBot | Complaints",
@@ -26,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 FILE = BASE_DIR / "complaints.json"
 
 
-# ==========================================
-# DATABASE
-# ==========================================
+# ==================================================
+# DATABASE FUNCTIONS
+# ==================================================
 
 def load_complaints():
 
@@ -36,8 +35,8 @@ def load_complaints():
         return []
 
     try:
-        with open(FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        with FILE.open("r", encoding="utf-8") as file:
+            data = json.load(file)
 
         return data if isinstance(data, list) else []
 
@@ -50,84 +49,122 @@ def save_complaints(data):
 
     temp_file = FILE.with_suffix(".json.tmp")
 
-    with open(temp_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+    with temp_file.open("w", encoding="utf-8") as file:
+        json.dump(
+            data,
+            file,
+            indent=4,
+            ensure_ascii=False
+        )
 
     temp_file.replace(FILE)
 
 
-# ==========================================
+# ==================================================
 # BRANDING
-# ==========================================
+# ==================================================
 
 brand_header()
 
 hero(
     "Student Grievance Portal",
-    "A dedicated platform to raise concerns and track their resolution."
+    "Raise a concern and track its progress. "
+    "Choose anonymous or identified submission."
 )
 
-st.markdown("")
 
-
-# ==========================================
+# ==================================================
 # SESSION STATE
-# ==========================================
+# ==================================================
 
-if "last_complaint_id" not in st.session_state:
-    st.session_state.last_complaint_id = None
+if "new_complaint_id" not in st.session_state:
+    st.session_state.new_complaint_id = None
 
 if "tracked_complaint" not in st.session_state:
     st.session_state.tracked_complaint = None
 
+if "tracking_attempted" not in st.session_state:
+    st.session_state.tracking_attempted = False
 
-# ==========================================
-# PORTAL NAVIGATION
-# ==========================================
+
+# ==================================================
+# PORTAL TABS
+# ==================================================
 
 submit_tab, track_tab = st.tabs([
-    "📝  Submit Complaint",
-    "🔍  Track Complaint"
+    "📝 Submit Complaint",
+    "🔍 Track Complaint"
 ])
 
 
-# ==========================================
+# ==================================================
 # SUBMIT COMPLAINT
-# ==========================================
+# ==================================================
 
 with submit_tab:
 
     st.markdown("## Register a Complaint")
 
-    st.caption(
-        "Provide your details and describe the issue "
-        "so the college administration can assist you."
+    complaint_type = st.radio(
+        "How would you like to submit?",
+        [
+            "Anonymous Complaint",
+            "Identified Complaint"
+        ],
+        horizontal=True,
+        help=(
+            "Anonymous complaints do not ask for your "
+            "name, email or phone number."
+        )
     )
 
-    with st.form("complaint_form", clear_on_submit=False):
+    is_identified = (
+        complaint_type == "Identified Complaint"
+    )
 
-        st.markdown("### 👤 Student Information")
+    with st.form(
+        "complaint_form",
+        clear_on_submit=True
+    ):
 
-        col1, col2 = st.columns(2)
+        # Student details only for identified complaints
+        if is_identified:
 
-        with col1:
+            st.markdown("### 👤 Student Information")
 
-            name = st.text_input(
-                "Full Name *",
-                placeholder="Enter your full name"
-            )
+            col1, col2 = st.columns(2)
 
-            email = st.text_input(
-                "Email Address *",
-                placeholder="example@gmail.com"
-            )
+            with col1:
 
-        with col2:
+                name = st.text_input(
+                    "Full Name *",
+                    placeholder="Enter your full name"
+                )
 
-            phone = st.text_input(
-                "Phone Number *",
-                placeholder="10-digit mobile number",
-                max_chars=10
+                email = st.text_input(
+                    "Email Address *",
+                    placeholder="example@gmail.com"
+                )
+
+            with col2:
+
+                phone = st.text_input(
+                    "Phone Number *",
+                    placeholder="10-digit mobile number",
+                    max_chars=10
+                )
+
+        else:
+
+            name = ""
+            email = ""
+            phone = ""
+
+            st.info(
+                "🔒 Anonymous mode: this form does not ask "
+                "for your name, email address or phone number. "
+                "Avoid including identifying details in your "
+                "description or attachments."
             )
 
         st.divider()
@@ -175,6 +212,10 @@ with submit_tab:
             use_container_width=True
         )
 
+        # ==================================================
+        # VALIDATION AND SAVE
+        # ==================================================
+
         if submitted:
 
             name = name.strip()
@@ -183,20 +224,34 @@ with submit_tab:
             subject = subject.strip()
             description = description.strip()
 
-            if not all([
-                name, email, phone, subject, description
+            if not subject or not description:
+
+                st.error(
+                    "Please complete the complaint subject "
+                    "and description."
+                )
+
+            elif is_identified and not all([
+                name,
+                email,
+                phone
             ]):
 
-                st.error("Please complete all required fields.")
+                st.error(
+                    "Please complete all student information fields."
+                )
 
-            elif not re.fullmatch(
+            elif is_identified and not re.fullmatch(
                 r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
                 email
             ):
 
                 st.error("Please enter a valid email address.")
 
-            elif not re.fullmatch(r"[6-9][0-9]{9}", phone):
+            elif is_identified and not re.fullmatch(
+                r"[6-9][0-9]{9}",
+                phone
+            ):
 
                 st.error(
                     "Please enter a valid 10-digit Indian mobile number."
@@ -204,7 +259,9 @@ with submit_tab:
 
             elif not agree:
 
-                st.warning("Please confirm your information.")
+                st.warning(
+                    "Please confirm your information."
+                )
 
             else:
 
@@ -215,8 +272,12 @@ with submit_tab:
                 )
 
                 complaint = {
-
                     "id": complaint_id,
+
+                    "complaint_type": (
+                        "Identified" if is_identified
+                        else "Anonymous"
+                    ),
 
                     "name": name,
                     "email": email,
@@ -227,11 +288,12 @@ with submit_tab:
                     "description": description,
 
                     "status": "Submitted",
-
                     "admin_remarks": "",
 
-                    "submitted_at": datetime.now().astimezone().isoformat(
-                        timespec="seconds"
+                    "submitted_at": (
+                        datetime.now()
+                        .astimezone()
+                        .isoformat(timespec="seconds")
                     )
                 }
 
@@ -241,50 +303,53 @@ with submit_tab:
 
                     save_complaints(complaints)
 
-                    st.session_state.last_complaint_id = complaint_id
-
-                    st.success(
-                        "Your complaint has been registered successfully!"
+                    st.session_state.new_complaint_id = (
+                        complaint_id
                     )
 
                 except OSError:
 
                     st.error(
-                        "Unable to save your complaint. Please try again."
+                        "Unable to save your complaint. "
+                        "Please try again."
                     )
 
 
-    # ======================================
+    # ==================================================
     # SUCCESS CARD
-    # ======================================
+    # ==================================================
 
-    if st.session_state.last_complaint_id:
+    if st.session_state.new_complaint_id:
 
         st.divider()
 
-        st.markdown("### 🎉 Complaint Registered")
+        st.success(
+            "Your complaint has been registered successfully!"
+        )
 
-        st.success("Your complaint has been successfully submitted.")
+        st.markdown("### 🎉 Complaint Registered")
 
         st.write("Your unique complaint tracking ID:")
 
         st.code(
-            st.session_state.last_complaint_id,
+            st.session_state.new_complaint_id,
             language=None
         )
 
         st.info(
-            "Please save this ID. You will need it to track your complaint."
+            "Please save this ID. You will need it to "
+            "track your complaint."
         )
 
-        if st.button("Copy Complaint ID"):
+        if st.button("Dismiss tracking ID"):
 
-            st.code(st.session_state.last_complaint_id)
+            st.session_state.new_complaint_id = None
+            st.rerun()
 
 
-# ==========================================
+# ==================================================
 # TRACK COMPLAINT
-# ==========================================
+# ==================================================
 
 with track_tab:
 
@@ -307,30 +372,33 @@ with track_tab:
             use_container_width=True
         )
 
-        if track_button:
+    if track_button:
 
-            if not tracking_id.strip():
+        if not tracking_id.strip():
 
-                st.warning("Please enter your complaint ID.")
+            st.warning("Please enter your complaint ID.")
 
-            else:
+        else:
 
-                complaints = load_complaints()
+            complaints = load_complaints()
 
-                result = next(
-                    (
-                        c for c in complaints
-                        if c.get("id", "").lower()
-                        == tracking_id.strip().lower()
-                    ),
-                    None
-                )
+            result = next(
+                (
+                    complaint
+                    for complaint in complaints
+                    if complaint.get("id", "").lower()
+                    == tracking_id.strip().lower()
+                ),
+                None
+            )
 
-                st.session_state.tracked_complaint = result
+            st.session_state.tracked_complaint = result
+            st.session_state.tracking_attempted = True
 
-    # ======================================
+
+    # ==================================================
     # DISPLAY TRACKING RESULT
-    # ======================================
+    # ==================================================
 
     result = st.session_state.tracked_complaint
 
@@ -342,11 +410,24 @@ with track_tab:
 
         st.markdown("### Complaint Overview")
 
-        st.code(result.get("id", "N/A"))
+        st.code(
+            result.get("id", "N/A"),
+            language=None
+        )
 
         col1, col2 = st.columns(2)
 
         with col1:
+
+            st.markdown("**Complaint Type**")
+
+            st.write(
+                result.get(
+                    "complaint_type",
+                    "Identified" if result.get("name")
+                    else "Anonymous"
+                )
+            )
 
             st.markdown("**Complaint Category**")
             st.write(result.get("category", "N/A"))
@@ -364,40 +445,38 @@ with track_tab:
             status = result.get("status", "Submitted")
 
             if status == "Resolved":
-
                 st.success("✓ Resolved")
 
             elif status == "Rejected":
-
                 st.error("Rejected")
 
             elif status == "Under Review":
-
                 st.warning("Under Review")
 
             else:
-
                 st.info("Submitted")
 
-        # ==================================
+
+        # ==================================================
         # STATUS TIMELINE
-        # ==================================
+        # ==================================================
 
         st.markdown("### 📍 Complaint Progress")
-
-        stages = [
-            "Submitted",
-            "Under Review",
-            "Resolved"
-        ]
 
         if status == "Rejected":
 
             st.error(
-                "This complaint has been rejected by the administration."
+                "This complaint has been rejected "
+                "by the administration."
             )
 
         else:
+
+            stages = [
+                "Submitted",
+                "Under Review",
+                "Resolved"
+            ]
 
             current_stage = (
                 stages.index(status)
@@ -408,22 +487,18 @@ with track_tab:
             for index, stage in enumerate(stages):
 
                 if index < current_stage:
-
                     st.success(f"✓ {stage}")
 
                 elif index == current_stage:
-
                     st.info(f"● {stage} — Current Status")
 
                 else:
-
                     st.caption(f"○ {stage} — Pending")
 
-        st.divider()
 
-        # ==================================
+        # ==================================================
         # DEPARTMENT
-        # ==================================
+        # ==================================================
 
         st.markdown("### 🏢 Department Information")
 
@@ -432,25 +507,27 @@ with track_tab:
             "Not yet assigned"
         )
 
-        st.info(f"Assigned Department: {department}")
+        st.info(
+            f"Assigned Department: {department}"
+        )
 
-        # ==================================
+
+        # ==================================================
         # ADMIN REMARKS
-        # ==================================
+        # ==================================================
 
         st.markdown("### 💬 Administration Remarks")
 
         remarks = result.get("admin_remarks", "")
 
         if remarks:
-
             st.write(remarks)
 
         else:
-
             st.caption(
                 "No administrative remarks have been added yet."
             )
+
 
         st.divider()
 
@@ -458,13 +535,27 @@ with track_tab:
             "For urgent matters, contact the college administration directly."
         )
 
-    elif result is None and st.session_state.tracked_complaint is not None:
+    elif st.session_state.tracking_attempted:
 
-        st.error("Complaint not found. Please verify your reference ID.")
+        st.error(
+            "Complaint not found. Please verify your reference ID."
+        )
 
 
-# ==========================================
+# ==================================================
+# PRIVACY NOTE
+# ==================================================
+
+st.info(
+    "Privacy note: Anonymous submissions do not request "
+    "contact details. Do not include your identity in the "
+    "complaint text if you wish to remain anonymous. "
+    "The hosting platform may still retain technical logs."
+)
+
+
+# ==================================================
 # FOOTER
-# ==========================================
+# ==================================================
 
 footer()

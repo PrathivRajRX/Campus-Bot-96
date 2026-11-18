@@ -3,329 +3,312 @@ import streamlit as st
 from chatbot import get_answer
 from styles.theme import apply_theme, brand_header, footer
 from datetime import datetime
+import json
+from pathlib import Path
 
 # ==================================================
-# CAMPUSBOT BY TEAM96
-# WHATSAPP-INSPIRED STUDENT CHAT
+# CAMPUSBOT BY TEAM96 - STUDENT CHAT
 # ==================================================
 
 st.set_page_config(
     page_title="CampusBot | National College",
     page_icon="🎓",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
 apply_theme()
 
 # ==================================================
-# WHATSAPP-INSPIRED DARK THEME
+# WHATSAPP-INSPIRED DESIGN + MOBILE FIX
 # ==================================================
 
-st.markdown("""
-<style>
-
-/* Main application */
-.stApp {
-    background: #0b141a;
-}
-
-/* Main content width */
-.block-container {
-    max-width: 1050px;
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
-}
-
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: #111b21;
-    border-right: 1px solid #26343d;
-}
-
-section[data-testid="stSidebar"] * {
-    color: #e9edef;
-}
-
-/* Chat header */
-.chat-header {
-    background: #202c33;
-    border: 1px solid #2a3942;
-    border-radius: 16px 16px 0 0;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 15px;
-}
-
-.chat-avatar {
-    background: #075e54;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    flex-shrink: 0;
-}
-
-.chat-title {
-    color: #e9edef;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.chat-subtitle {
-    color: #aebac1;
-    font-size: 12px;
-    margin-top: 3px;
-}
-
-/* Chat background */
-.chat-area {
-    background-color: #0b141a;
-    background-image:
-        radial-gradient(#26343d 0.6px, transparent 0.6px);
-    background-size: 19px 19px;
-    border-left: 1px solid #26343d;
-    border-right: 1px solid #26343d;
-    min-height: 250px;
-    padding: 14px;
-}
-
-/* Welcome card */
-.welcome-card {
-    background: #202c33;
-    border: 1px solid #34434c;
-    border-radius: 14px;
-    padding: 24px;
-    text-align: center;
-    margin: 20px auto;
-    max-width: 600px;
-}
-
-.welcome-card h3 {
-    color: #e9edef;
-}
-
-.welcome-card p {
-    color: #b5c0c6;
-    font-size: 14px;
-}
-
-/* Chat messages */
-div[data-testid="stChatMessage"] {
-    border-radius: 13px;
-    padding: 12px 16px;
-    margin-top: 10px;
-    margin-bottom: 12px;
-    max-width: 82%;
-    border: none;
-}
-
-/* User message - RIGHT */
-div[data-testid="stChatMessage"]:has(
-    [data-testid="chatAvatarIcon-user"]
-) {
-    background: #005c4b;
-    margin-left: auto;
-    margin-right: 5px;
-    flex-direction: row-reverse;
-}
-
-/* User message text */
-div[data-testid="stChatMessage"]:has(
-    [data-testid="chatAvatarIcon-user"]
-) [data-testid="stMarkdownContainer"] {
-    color: #f1f7f5;
-}
-
-/* Assistant message - LEFT */
-div[data-testid="stChatMessage"]:has(
-    [data-testid="chatAvatarIcon-assistant"]
-) {
-    background: #202c33;
-    margin-right: auto;
-    margin-left: 5px;
-    border: 1px solid #2a3942;
-}
-
-/* Assistant message text */
-div[data-testid="stChatMessage"]:has(
-    [data-testid="chatAvatarIcon-assistant"]
-) [data-testid="stMarkdownContainer"] {
-    color: #e9edef;
-}
-
-/* Message text */
-div[data-testid="stChatMessage"] p {
-    font-size: 15px;
-    line-height: 1.65;
-}
-
-/* Suggested questions */
-div.stButton > button {
-    border-radius: 12px;
-    min-height: 48px;
-    background: #202c33;
-    border: 1px solid #34434c;
-    color: #e9edef;
-    transition: 0.2s ease;
-}
-
-div.stButton > button:hover {
-    background: #075e54;
-    border-color: #128c7e;
-    color: white;
-}
-
-/* Chat input */
-div[data-testid="stChatInput"] {
-    background: #202c33;
-    border: 1px solid #34434c;
-    border-radius: 15px;
-}
-
-div[data-testid="stChatInput"] textarea {
-    color: #e9edef;
-}
-
-div[data-testid="stChatInput"] textarea::placeholder {
-    color: #8696a0;
-}
-
-/* Divider */
-hr {
-    border-color: #26343d !important;
-}
-
-/* Section headings */
-h1, h2, h3 {
-    color: #e9edef !important;
-}
-
-/* Captions */
-.stCaption {
-    color: #aebac1;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-    .block-container {
-        padding-left: 10px;
-        padding-right: 10px;
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: #0b141a;
     }
 
-    div[data-testid="stChatMessage"] {
-        max-width: 94%;
+    .block-container {
+        max-width: 1050px;
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+    }
+
+    section[data-testid="stSidebar"] {
+        background: #111b21;
+        border-right: 1px solid #26343d;
+    }
+
+    section[data-testid="stSidebar"] * {
+        color: #e9edef;
     }
 
     .chat-header {
-        padding: 12px;
+        background: #202c33;
+        border: 1px solid #2a3942;
+        border-radius: 16px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 12px 0 16px;
+    }
+
+    .chat-avatar {
+        background: #075e54;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        flex-shrink: 0;
     }
 
     .chat-title {
-        font-size: 16px;
-    }
-}
-
-/* =====================================
-   MOBILE TEXT READABILITY FIX
-===================================== */
-
-@media (max-width: 768px) {
-
-    /* Main text */
-    .stApp,
-    .stApp p,
-    .stApp li,
-    .stApp label,
-    .stMarkdown,
-    .stMarkdown p {
-        color: #F1F5F9 !important;
-        opacity: 1 !important;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
     }
 
-    /* Headings */
-    h1, h2, h3, h4, h5 {
-        color: #FFFFFF !important;
-        opacity: 1 !important;
+    .chat-subtitle {
+        color: #cbd5e1;
+        font-size: 12px;
+        margin-top: 3px;
     }
 
-    /* Captions */
-    .stCaption,
-    [data-testid="stCaptionContainer"] p {
-        color: #CBD5E1 !important;
-        opacity: 1 !important;
+    .welcome-card {
+        background: #202c33;
+        border: 1px solid #34434c;
+        border-radius: 14px;
+        padding: 22px;
+        text-align: center;
+        margin: 12px auto 20px;
+        max-width: 650px;
     }
 
-    /* Sidebar */
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] span,
-    section[data-testid="stSidebar"] label {
-        color: #F1F5F9 !important;
-        opacity: 1 !important;
+    .welcome-card h3 {
+        color: #ffffff !important;
     }
 
-    /* Buttons */
-    div.stButton > button {
-        color: #FFFFFF !important;
-        background: #263B45 !important;
-        border: 1px solid #526773 !important;
-        font-weight: 600 !important;
-        opacity: 1 !important;
-        min-height: 48px;
-    }
-
-    /* Input fields */
-    div[data-testid="stChatInput"] textarea,
-    .stTextInput input,
-    .stTextArea textarea {
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-        font-size: 16px !important;
-    }
-
-    /* Input placeholder */
-    div[data-testid="stChatInput"] textarea::placeholder,
-    input::placeholder,
-    textarea::placeholder {
-        color: #CBD5E1 !important;
-        opacity: 1 !important;
-    }
-
-    /* Chat messages */
-    div[data-testid="stChatMessage"] p {
-        color: #FFFFFF !important;
-        font-size: 16px !important;
-        line-height: 1.7 !important;
-    }
-
-    /* Message timestamps */
-    div[data-testid="stChatMessage"] [data-testid="stCaptionContainer"] p {
-        color: #D1E5DF !important;
-        font-size: 11px !important;
-    }
-
-    /* Welcome card */
     .welcome-card p {
-        color: #E2E8F0 !important;
-        font-size: 15px !important;
-        line-height: 1.6 !important;
+        color: #e2e8f0 !important;
+        font-size: 14px;
     }
 
-    /* Remove faded text effects */
-    .stMarkdown,
-    .stCaption,
-    .stButton {
+    div[data-testid="stChatMessage"] {
+        border-radius: 13px;
+        padding: 12px 16px;
+        margin-top: 10px;
+        margin-bottom: 12px;
+        max-width: 90%;
+        border: none;
+    }
+
+    div[data-testid="stChatMessage"]:has(
+        [data-testid="chatAvatarIcon-user"]
+    ) {
+        background: #005c4b;
+        margin-left: auto;
+        margin-right: 5px;
+        flex-direction: row-reverse;
+    }
+
+    div[data-testid="stChatMessage"]:has(
+        [data-testid="chatAvatarIcon-assistant"]
+    ) {
+        background: #202c33;
+        margin-right: auto;
+        margin-left: 5px;
+        border: 1px solid #2a3942;
+    }
+
+    div[data-testid="stChatMessage"] p {
+        color: #ffffff !important;
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    /* CHAT INPUT */
+
+    div[data-testid="stChatInput"] {
+        background: #202c33 !important;
+        border: 1px solid #526773 !important;
+        border-radius: 15px !important;
+    }
+
+    div[data-testid="stChatInput"] textarea,
+    div[data-testid="stChatInput"] textarea:focus,
+    div[data-testid="stChatInput"] [data-baseweb="textarea"] textarea {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        caret-color: #ffffff !important;
+        opacity: 1 !important;
+        font-size: 16px !important;
+    }
+
+    div[data-testid="stChatInput"] textarea::placeholder {
+        color: #d1d5db !important;
+        -webkit-text-fill-color: #d1d5db !important;
         opacity: 1 !important;
     }
-}
 
-</style>
-""", unsafe_allow_html=True)
+    /* BUTTONS */
+
+    div.stButton > button {
+        border-radius: 12px;
+        min-height: 46px;
+        background: #202c33;
+        border: 1px solid #526773;
+        color: #ffffff !important;
+    }
+
+    div.stButton > button:hover {
+        background: #075e54;
+        border-color: #128c7e;
+        color: #ffffff !important;
+    }
+
+    @media (max-width: 768px) {
+        .block-container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .chat-header {
+            padding: 12px;
+        }
+
+        .chat-title {
+            font-size: 16px;
+        }
+
+        div[data-testid="stChatMessage"] {
+            max-width: 98%;
+        }
+
+        div[data-testid="stChatMessage"] p {
+            font-size: 16px !important;
+            line-height: 1.7 !important;
+        }
+
+        div[data-testid="stChatInput"] textarea,
+        div[data-testid="stChatInput"] textarea:focus {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            font-size: 16px !important;
+        }
+
+        div[data-testid="stChatInput"] textarea::placeholder {
+            color: #d1d5db !important;
+            -webkit-text-fill-color: #d1d5db !important;
+            opacity: 1 !important;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+# ==================================================
+# FAQ-BASED SUGGESTIONS
+# ==================================================
+
+def load_suggestion_faqs():
+    faq_path = Path(__file__).resolve().parent / "faqs.json"
+
+    try:
+        with faq_path.open("r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        return data if isinstance(data, list) else []
+
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
+def get_follow_up_suggestions(previous_question, limit=3):
+
+    faqs = load_suggestion_faqs()
+    candidates = []
+
+    for faq in faqs:
+        examples = faq.get("questions", [])
+
+        if not examples and faq.get("question"):
+            examples = [faq["question"]]
+
+        for item in examples:
+            if isinstance(item, str) and item.strip():
+                candidates.append(
+                    (item.strip(), faq.get("category", ""))
+                )
+
+    if not candidates:
+        return []
+
+    try:
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        texts = [item[0] for item in candidates]
+
+        vectorizer = TfidfVectorizer(
+            ngram_range=(1, 2),
+            stop_words="english"
+        )
+
+        matrix = vectorizer.fit_transform(
+            texts + [previous_question]
+        )
+
+        scores = cosine_similarity(
+            matrix[-1],
+            matrix[:-1]
+        ).ravel()
+
+        ranked = sorted(
+            range(len(candidates)),
+            key=lambda i: float(scores[i]),
+            reverse=True
+        )
+
+        previous = previous_question.strip().lower().rstrip("?.! ")
+        results = []
+
+        for index in ranked:
+            candidate = candidates[index][0]
+            normalized = candidate.lower().rstrip("?.! ")
+
+            if normalized == previous:
+                continue
+
+            if float(scores[index]) < 0.04:
+                continue
+
+            if candidate not in results:
+                results.append(candidate)
+
+            if len(results) == limit:
+                break
+
+        return results
+
+    except (ValueError, ImportError):
+        return []
+
+
+# Common questions for first-time visitors
+FIRST_VISIT_QUESTIONS = [
+    "What courses are available?",
+    "How can I get admission?",
+    "Where is the college located?",
+]
 
 
 # ==================================================
@@ -354,7 +337,6 @@ with st.sidebar:
 
     st.markdown("---")
 
-    
     st.markdown("### 💡 Quick Information")
 
     quick_questions = {
@@ -362,7 +344,7 @@ with st.sidebar:
         "📚 Courses & Programmes": "Which courses are available?",
         "🎓 Admissions": "How can I get admission?",
         "📝 Examinations": "Tell me about examinations",
-        "🏛️ Campus Facilities": "What facilities are available?"
+        "🏛️ Campus Facilities": "What facilities are available?",
     }
 
     for label, query in quick_questions.items():
@@ -375,14 +357,12 @@ with st.sidebar:
             st.session_state.pending_question = query
             st.rerun()
 
-
     st.markdown("---")
 
     st.markdown("**Need assistance?**")
-
     st.caption(
-        "Use the Complaints page in the sidebar "
-        "to submit and track your complaints."
+        "Use the Complaints button on the main screen "
+        "to submit or track a complaint."
     )
 
     st.markdown("---")
@@ -397,35 +377,62 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("""
-    <div style="
-        text-align:center;
-        color:#8696a0;
-        font-size:11px;
-        padding:20px 0;
-        letter-spacing:1px;
-    ">
-        CAMPUSBOT<br>
-        POWERED BY TEAM96
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="
+            text-align:center;
+            color:#cbd5e1;
+            font-size:11px;
+            padding:16px 0;
+            letter-spacing:1px;
+        ">
+            CAMPUSBOT<br>
+            POWERED BY TEAM96
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 # ==================================================
 # MAIN CHAT HEADER
 # ==================================================
 
-st.markdown("""
-<div class="chat-header">
-    <div class="chat-avatar">🎓</div>
-    <div>
-        <div class="chat-title">CampusBot</div>
-        <div class="chat-subtitle">
-            The National College · Virtual Assistant
+st.markdown(
+    """
+    <div class="chat-header">
+        <div class="chat-avatar">🎓</div>
+        <div>
+            <div class="chat-title">CampusBot</div>
+            <div class="chat-subtitle">
+                The National College · Virtual Assistant
+            </div>
         </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ==================================================
+# COMPLAINT NAVIGATION
+# ==================================================
+
+st.markdown("### Student Support")
+
+st.page_link(
+    "pages/2_Complaints.py",
+    label="📝 Submit or Track a Complaint",
+    icon="📝",
+    use_container_width=True
+)
+
+st.caption(
+    "Submit a new complaint or check its status "
+    "using your complaint reference ID."
+)
+
+st.divider()
 
 
 # ==================================================
@@ -434,8 +441,8 @@ st.markdown("""
 
 if not st.session_state.messages:
 
-    st.markdown("""
-    <div class="chat-area">
+    st.markdown(
+        """
         <div class="welcome-card">
             <h3>👋 Welcome to CampusBot!</h3>
             <p>
@@ -447,33 +454,9 @@ if not st.session_state.messages:
                 examinations, college facilities and more.
             </p>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("### ✨ Suggested Questions")
-
-    suggestions = [
-        "Tell me about National College",
-        "Which courses are available?",
-        "How can I get admission?",
-        "Where is the college located?",
-        "Does NCB offer BCA?",
-        "What facilities are available?"
-    ]
-
-    columns = st.columns(2)
-
-    for index, suggestion in enumerate(suggestions):
-
-        with columns[index % 2]:
-
-            if st.button(
-                suggestion,
-                key=f"suggestion_{index}",
-                use_container_width=True
-            ):
-                st.session_state.pending_question = suggestion
-                st.rerun()
+        """,
+        unsafe_allow_html=True
+    )
 
 
 # ==================================================
@@ -483,31 +466,81 @@ if not st.session_state.messages:
 for message in st.session_state.messages:
 
     role = message["role"]
-
     avatar = "👤" if role == "user" else "🎓"
 
     with st.chat_message(role, avatar=avatar):
 
         st.markdown(message["content"])
 
-        timestamp = message.get("timestamp", "")
+        if message.get("timestamp"):
+            st.caption(message["timestamp"])
 
-        if timestamp:
-            st.caption(timestamp)
+
+# ==================================================
+# DYNAMIC SUGGESTED QUESTIONS
+# ==================================================
+
+if st.session_state.messages:
+
+    latest_user_question = next(
+        (
+            message["content"]
+            for message in reversed(st.session_state.messages)
+            if message.get("role") == "user"
+        ),
+        ""
+    )
+
+    suggested_questions = get_follow_up_suggestions(
+        latest_user_question,
+        limit=3
+    )
+
+else:
+    suggested_questions = FIRST_VISIT_QUESTIONS
+
+
+if suggested_questions:
+
+    st.markdown(
+        """
+        <div style="
+            color:#dbeafe;
+            font-weight:700;
+            margin:8px 0 6px;
+        ">
+            💡 You can also ask
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    suggestion_columns = st.columns(
+        len(suggested_questions)
+    )
+
+    for index, suggestion in enumerate(suggested_questions):
+
+        with suggestion_columns[index]:
+
+            if st.button(
+                suggestion,
+                key=f"followup_{len(st.session_state.messages)}_{index}",
+                use_container_width=True
+            ):
+                st.session_state.pending_question = suggestion
+                st.rerun()
 
 
 # ==================================================
 # CHAT INPUT
 # ==================================================
 
-question = st.chat_input(
-    "Message CampusBot..."
-)
+question = st.chat_input("Message CampusBot...")
 
 if st.session_state.pending_question:
 
     question = st.session_state.pending_question
-
     st.session_state.pending_question = None
 
 
@@ -521,20 +554,15 @@ if question:
 
     if question:
 
-        current_time = datetime.now().strftime("%I:%M %p")
-
-        # Save user message
         st.session_state.messages.append({
             "role": "user",
             "content": question,
-            "timestamp": current_time
+            "timestamp": datetime.now().strftime("%I:%M %p")
         })
 
-        # Generate assistant response
         try:
 
             with st.spinner("CampusBot is typing..."):
-
                 answer = get_answer(question)
 
             if not answer:
@@ -552,13 +580,10 @@ if question:
 
             print("Chatbot Error:", error)
 
-        # Save assistant response
-        response_time = datetime.now().strftime("%I:%M %p")
-
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,
-            "timestamp": response_time
+            "timestamp": datetime.now().strftime("%I:%M %p")
         })
 
         st.rerun()
@@ -569,5 +594,4 @@ if question:
 # ==================================================
 
 st.markdown("---")
-
 footer()

@@ -1,578 +1,533 @@
-
 [
   {
     "category": "Greetings",
     "questions": ["Hi", "Hello", "Hey", "Good morning", "Good afternoon", "Good evening", "Anyone there?", "Can you help me?"],
-    "answer": "Hello! Welcome to National College Basavanagudi CampusBot. I'm here to help you with admissions, courses, examinations, college facilities and student information. What would you like to know?"
+    "answer": "Hello! 😎 Welcome to NCB CampusBot. How can I help you today?"
   },
   {
     "category": "College Information",
-    "questions": ["What is the college name?", "Tell me about NCB", "What is National College?", "What does NCB stand for?", "Give me college information", "Tell me about this institution"],
-    "answer": "NCB stands for The National College, Basavanagudi, Bengaluru. It is an educational institution offering undergraduate and postgraduate programmes. Visit the official website https://ncbgudi.com/ for institutional information."
+    "questions": ["What is the college name?", "Tell me about NCB", "What is National College?", "What does NCB stand for?", "Give me college information"],
+    "answer": "National College, Basavanagudi, Bengaluru, is an educational institution offering undergraduate and postgraduate programmes."
   },
   {
     "category": "College History",
     "questions": ["When was NCB established?", "What is the history of National College?", "When did the college start?", "How old is National College?", "Who established NCB?"],
-    "answer": "The National College, Basavanagudi, was established in 1945. For detailed information about its founders, history and development, refer to the official college website."
+    "answer": "National College, Basavanagudi, was established in 1945."
   },
   {
     "category": "College Location",
-    "questions": ["Where is NCB located?", "Where is National College?", "Give me the college address", "What is the location of the Basavanagudi campus?", "How can I reach NCB?", "Where is your campus?"],
-    "answer": "The National College, Basavanagudi, is located on Pampa Mahakavi Road, Basavanagudi, Bengaluru, Karnataka - 560004."
+    "questions": ["Where is NCB located?", "Where is National College?", "Give me the college address", "Where is your campus?", "How can I reach NCB?"],
+    "answer": "Pampa Mahakavi Road, Basavanagudi, Bengaluru, Karnataka - 560004."
   },
   {
     "category": "College Website",
-    "questions": ["What is the official website?", "Give me NCB website", "Where can I find college information online?", "Is there a college website?", "Send me the website link"],
-    "answer": "You can visit the official National College Basavanagudi website at https://ncbgudi.com/ for college information, announcements and updates."
+    "questions": ["What is the official website?", "Give me NCB website", "Where can I find college information online?", "Send me the website link"],
+    "answer": "Visit https://ncbgudi.com/ for official college information and updates."
   },
   {
     "category": "College Contact",
-    "questions": ["How can I contact NCB?", "What is the college phone number?", "Give me the office number", "How do I contact the administration?", "Can I call the college?"],
-    "answer": "You can contact the college through the contact details published on its official website. Please check https://ncbgudi.com/ for the latest phone numbers and email addresses."
+    "questions": ["How can I contact NCB?", "What is the college phone number?", "Give me the office number", "How do I contact the administration?"],
+    "answer": "official college contact info is Main Office +91 (80) 6603 0200, Admission Office +91 (80) 2663 2518, principal +91 (80) 2663 0845."
   },
   {
     "category": "College Email",
-    "questions": ["What is the college email?", "Give me NCB email address", "How can I email the college?", "Where can I send my admission enquiry?"],
-    "answer": "Please refer to the Contact section of https://ncbgudi.com/ for the current official college email address."
+    "questions": ["What is the college email?", "Give me NCB email address", "How can I email the college?"],
+    "answer": "The official college General email address is info@nationalcollege.edu.in ."
   },
   {
     "category": "Courses Offered",
-    "questions": ["What courses are available?", "Which courses does NCB offer?", "List all degree programmes", "What can I study here?", "What are the available departments?", "Which undergraduate courses are offered?"],
-    "answer": "The National College offers various undergraduate and postgraduate programmes. For the complete current course list, combinations and eligibility criteria, refer to the official prospectus or contact the admission office."
+    "questions": ["What courses are available?", "Which courses does NCB offer?", "List all degree programmes", "What can I study here?"],
+    "answer": "Courses include BCA, B.Com, BBA, B.Sc and B.Sc Animation. ."
   },
   {
     "category": "Undergraduate Courses",
-    "questions": ["What UG courses are available?", "Which undergraduate degrees are offered?", "What degree programmes can I join?", "Does NCB have undergraduate courses?"],
-    "answer": "Undergraduate programme options include courses such as BA, B.Com, BBA, BCA and B.Sc. Availability of individual combinations should be confirmed through the current admission prospectus."
+    "questions": ["What UG courses are available?", "Which undergraduate degrees are offered?", "What degree programmes can I join?"],
+    "answer": "Undergraduate options include BCA, B.Com, BBA, B.Sc and B.Sc Animation."
   },
   {
     "category": "Postgraduate Courses",
-    "questions": ["Does NCB offer PG courses?", "What postgraduate courses are available?", "Can I study after graduation?", "Which master's courses are offered?"],
-    "answer": "The college has postgraduate programme offerings. Please consult the current official prospectus or admission office for the exact courses, specialisations and eligibility."
+    "questions": ["Does NCB offer PG courses?", "What postgraduate courses are available?", "Can I study after graduation?"],
+    "answer": "Postgraduate options include MCA, M.Com, MBA, M.Sc and M.A."
   },
   {
     "category": "BCA Course",
-    "questions": ["Does NCB offer BCA?", "Is BCA available?", "Can I study computer applications?", "Is there a computer science degree?", "Tell me about BCA at NCB"],
-    "answer": "Yes, BCA is a programme offered at National College Basavanagudi. Contact the BCA department or admission office for the current curriculum, seats, eligibility and admission details."
+    "questions": ["Does NCB offer BCA?", "Is BCA available?", "Can I study computer applications?", "Tell me about BCA at NCB"],
+    "answer": "Yes! National College, Basavanagudi, offers BCA. Contact the department for course details."
   },
   {
     "category": "BCA Eligibility",
-    "questions": ["What is BCA eligibility?", "Who can join BCA?", "Can I join BCA after 12th?", "What qualification is needed for BCA?", "What marks are required for BCA?"],
-    "answer": "BCA eligibility depends on the current university and college admission regulations. Contact the admission office to confirm accepted qualifying examinations, subject requirements and minimum marks."
+    "questions": ["What is BCA eligibility?", "Who can join BCA?", "Can I join BCA after 12th?", "What marks are required for BCA?"],
+    "answer": "BCA eligibility depends on university admission rules. Contact the admission office for subject and minimum-mark requirements."
   },
   {
     "category": "BCA Subjects",
-    "questions": ["What subjects are in BCA?", "What will I study in BCA?", "Does BCA include programming?", "Is mathematics required in BCA?", "What are the BCA semester subjects?"],
-    "answer": "BCA generally covers computer programming, software development, databases, computer networks, mathematics and related computing subjects. The exact subjects and semester syllabus depend on the applicable curriculum."
+    "questions": ["What subjects are in BCA?", "What will I study in BCA?", "Does BCA include programming?", "What are the BCA semester subjects?"],
+    "answer": "BCA covers Programming Fundamentals, Database Management, Computer Networks, Mathematics and Software Development."
+  },
+  {
+    "category": "BCA Classroom",
+    "questions": ["Where is the BCA classroom?", "Which room is BCA?", "Where are BCA classes conducted?", "What is the BCA room number?"],
+    "answer": "The BCA classroom is in Room D-23."
   },
   {
     "category": "BCA Duration",
-    "questions": ["How many years is BCA?", "What is the duration of BCA?", "How many semesters are there in BCA?", "When will I complete my BCA?"],
-    "answer": "The BCA programme duration and semester structure follow the applicable university and academic regulations. Confirm the current course duration with the BCA department."
+    "questions": ["How many years is BCA?", "What is the duration of BCA?", "How many semesters are there in BCA?"],
+    "answer": "BCA duration is typically three years, divided into six semesters."
   },
   {
     "category": "BCA Practical Classes",
-    "questions": ["Does BCA have practical classes?", "Are there programming labs?", "Will I get coding practice?", "Are computer lab sessions included?", "Does BCA have projects?"],
-    "answer": "BCA programmes generally include practical laboratory sessions and project work. Contact the department for the exact practical schedule, laboratory facilities and project requirements."
+    "questions": ["Does BCA have practical classes?", "Are there programming labs?", "Will I get coding practice?", "Does BCA have projects?"],
+    "answer": "Yes, BCA generally includes practical lab sessions and project work."
   },
   {
     "category": "BCA Career Opportunities",
-    "questions": ["What can I do after BCA?", "What are the jobs after BCA?", "Can I become a software developer?", "What is the future of BCA?", "Can BCA students work in IT companies?"],
-    "answer": "BCA graduates can explore careers in software development, web development, application development, IT support, testing, databases and other technology fields. Career opportunities depend on skills, experience and employer requirements."
+    "questions": ["What can I do after BCA?", "What are the jobs after BCA?", "Can I become a software developer?", "What is the future of BCA?"],
+    "answer": "BCA graduates can pursue careers in software development, web development, testing, databases and IT support."
   },
   {
     "category": "B.Com Course",
-    "questions": ["Does NCB offer B.Com?", "Is commerce available?", "Can I study B.Com here?", "What is the B.Com course?"],
-    "answer": "B.Com is among the undergraduate programme options. Contact the commerce department for current combinations, subjects, eligibility and admission details."
+    "questions": ["Does NCB offer B.Com?", "Is commerce available?", "Can I study B.Com here?"],
+    "answer": "B.Com is among the undergraduate courses offered. Contact the commerce department for current combination details."
   },
   {
     "category": "BBA Course",
-    "questions": ["Does NCB have BBA?", "Is business administration available?", "Can I join BBA?", "Tell me about the BBA programme"],
-    "answer": "BBA is an undergraduate programme option. Contact the admission office for current availability, specialisations, eligibility and course structure."
-  },
-  {
-    "category": "BA Course",
-    "questions": ["Does NCB offer BA?", "What arts courses are available?", "Can I study humanities?", "What BA combinations are available?"],
-    "answer": "BA programme options are available subject to the current prospectus. Contact the arts department for available subject combinations and eligibility."
+    "questions": ["Does NCB have BBA?", "Is business administration available?", "Can I join BBA?"],
+    "answer": "BBA is among the undergraduate course options. Contact the admission office for current details."
   },
   {
     "category": "B.Sc Course",
-    "questions": ["Does NCB offer B.Sc?", "Are science courses available?", "Can I study BSc?", "What science combinations are available?"],
-    "answer": "B.Sc programme options are available subject to current course offerings. Contact the science department for combinations, laboratory facilities and eligibility."
+    "questions": ["Does NCB offer B.Sc?", "Are science courses available?", "Can I study BSc?"],
+    "answer": "B.Sc programmes are available. Contact the science department for current subject combinations."
+  },
+  {
+    "category": "B.Sc Animation",
+    "questions": ["Does NCB offer BSc Animation?", "Is animation available?", "Can I study animation at NCB?"],
+    "answer": "B.Sc Animation is listed among the college's course options. Contact the admission office for current availability."
   },
   {
     "category": "Admissions",
-    "questions": ["How can I get admission?", "How do I join NCB?", "What is the admission procedure?", "How can I apply?", "When does admission start?", "Can I apply online?"],
-    "answer": "To apply, check the current admission notification and prospectus on https://ncbgudi.com/ or contact the admission office. The office can guide you through application submission, eligibility and document verification."
+    "questions": ["How can I get admission?", "How do I join NCB?", "What is the admission procedure?", "How can I apply?"],
+    "answer": "Check the latest admission notification at https://ncbgudi.com/ or contact the admission office."
   },
   {
     "category": "Admission Dates",
-    "questions": ["When will admissions open?", "What is the last date for admission?", "When does the admission process start?", "Are admissions currently open?", "What is the admission deadline?"],
-    "answer": "Admission dates change every academic year. Please check the latest official admission notification or contact the admission office for opening dates and deadlines."
+    "questions": ["When will admissions open?", "What is the last date for admission?", "When does admission start?", "Are admissions currently open?"],
+    "answer": "Admission dates change each academic year. Check the official website or contact the admission office."
   },
   {
     "category": "Admission Application",
-    "questions": ["Where can I get the application form?", "How do I fill the admission form?", "Can I apply online?", "Where should I submit my application?", "How do I register for admission?"],
-    "answer": "Please check the official college website or contact the admission office for the current application form, submission method and application instructions."
+    "questions": ["Where can I get the application form?", "How do I fill the admission form?", "Can I apply online?", "Where should I submit my application?"],
+    "answer": "Contact the admission office for the current application form and submission instructions."
   },
   {
     "category": "Admission Documents",
-    "questions": ["Which documents are needed for admission?", "What certificates should I bring?", "What documents are required to join?", "Do I need my marks card?", "What should I submit during admission?"],
-    "answer": "Common admission documents may include previous examination marks cards, transfer certificate, identity proof, photographs and applicable category certificates. Confirm the exact document checklist with the admission office."
+    "questions": ["Which documents are needed for admission?", "What certificates should I bring?", "Do I need my marks card?"],
+    "answer": "Common documents include 10th and 12th marks cards, transfer certificate, ID proof and photographs ."
   },
   {
     "category": "12th Standard Admission",
-    "questions": ["Can I join after 12th?", "Is PUC required for admission?", "Can 12th pass students apply?", "Can I join degree after higher secondary?", "What happens after PUC?"],
-    "answer": "Students who have completed an accepted qualifying examination may apply for eligible undergraduate programmes. Specific subject and marks requirements depend on the selected course."
+    "questions": ["Can I join after 12th?", "Is PUC required for admission?", "Can 12th pass students apply?", "What happens after PUC?"],
+    "answer": "Students who pass a recognised qualifying examination can apply for eligible undergraduate courses."
   },
   {
     "category": "NIOS Admission",
-    "questions": ["Does NCB accept NIOS?", "Can NIOS students join BCA?", "Is NIOS valid for admission?", "Can I get admission after NIOS?", "Do you accept NIOS marksheets?", "Can an open-school student apply?"],
-    "answer": "NIOS qualification acceptance depends on the programme's eligibility requirements and applicable university regulations. Contact the admission office with your NIOS marksheet and subjects to confirm eligibility before applying."
+    "questions": ["Does NCB accept NIOS?", "Can NIOS students join BCA?", "Is NIOS valid for admission?", "Do you accept NIOS marksheets?"],
+    "answer": "NIOS students should confirm course eligibility with the admission office before applying."
   },
   {
     "category": "CBSE Admission",
-    "questions": ["Does NCB accept CBSE students?", "Can CBSE students join?", "Is CBSE accepted for degree admission?", "Can I apply with a CBSE marksheet?"],
-    "answer": "Students with recognised CBSE qualifications can enquire about admission to eligible programmes. Course-specific subject and marks requirements must be confirmed with the admission office."
+    "questions": ["Does NCB accept CBSE students?", "Can CBSE students join?", "Can I apply with a CBSE marksheet?"],
+    "answer": "Students with recognised CBSE qualifications can apply, subject to course-specific eligibility."
   },
   {
     "category": "Other Board Admission",
-    "questions": ["Can students from other boards apply?", "Is Karnataka State Board accepted?", "Can ICSE students join?", "Do you accept other recognised boards?", "Can students from other states apply?"],
-    "answer": "Applicants from recognised educational boards may be considered according to applicable admission and eligibility rules. Contact the admission office to verify your qualification."
+    "questions": ["Can students from other boards apply?", "Is Karnataka State Board accepted?", "Can ICSE students join?", "Can students from other states apply?"],
+    "answer": "Students from recognised boards can enquire about admission. Eligibility depends on the selected course."
   },
   {
     "category": "Management Admission",
-    "questions": ["Is management quota available?", "Can I get a management seat?", "Is direct admission possible?", "How can I apply for a management seat?", "Can I get admission without the regular process?"],
-    "answer": "Contact the admission office to confirm available admission categories, seat availability, eligibility and official fees. All admissions must follow the college's applicable admission rules."
+    "questions": ["Is management quota available?", "Can I get a management seat?", "Is direct admission possible?"],
+    "answer": "Contact the admission office to confirm available admission categories, eligibility and official fees."
   },
   {
     "category": "Lateral Entry",
-    "questions": ["Can diploma students join BCA?", "Is lateral entry available?", "Can I join directly into the second year?", "Can diploma holders apply for degree admission?"],
-    "answer": "Lateral-entry eligibility depends on the programme and applicable university regulations. Contact the admission office with your diploma qualification details to confirm whether any entry option is available."
+    "questions": ["Can diploma students join BCA?", "Is lateral entry available?", "Can I join directly into the second year?"],
+    "answer": "Lateral-entry options depend on university rules. Contact the admission office for confirmation."
   },
   {
     "category": "Admission Status",
-    "questions": ["How can I check my admission status?", "Did my application get accepted?", "How do I know if I got a seat?", "Where can I check my admission confirmation?"],
-    "answer": "For application status and seat confirmation, contact the admission office using your application or registration details. Do not share personal documents or sensitive information in this chatbot."
+    "questions": ["How can I check my admission status?", "Did my application get accepted?", "How do I know if I got a seat?"],
+    "answer": "Contact the admission office with your application number to check your admission status."
   },
   {
     "category": "Admission Cancellation",
-    "questions": ["How can I cancel my admission?", "Can I withdraw my admission?", "Will I get a fee refund?", "What is the cancellation process?"],
-    "answer": "Contact the admission or accounts office for the official withdrawal procedure, required documents and applicable refund policy. Refund eligibility depends on the current rules and deadlines."
+    "questions": ["How can I cancel my admission?", "Can I withdraw my admission?", "Will I get a fee refund?"],
+    "answer": "Contact the admission or accounts office for cancellation procedures and refund rules."
   },
   {
     "category": "Course Fees",
-    "questions": ["What are the college fees?", "How much are the fees?", "Tell me the fee structure", "What is the annual fee?", "How much does a degree cost?", "What is the BCA fee?"],
-    "answer": "Course fees vary by programme and academic year. Contact the admission or accounts office for the latest official fee structure and payment details."
+    "questions": ["What are the college fees?", "How much are the fees?", "Tell me the fee structure", "What is the BCA fee?"],
+    "answer": "Fees vary by course and academic year. Contact the accounts office for the latest fee structure."
   },
   {
     "category": "Fee Payment",
-    "questions": ["How can I pay my fees?", "Can I pay fees online?", "What payment methods are accepted?", "Where should I pay my college fees?", "Can I pay by UPI?"],
-    "answer": "Please contact the accounts office or check official payment instructions to confirm accepted payment methods. Make payments only through authorised college channels and retain your receipt."
+    "questions": ["How can I pay my fees?", "Can I pay fees online?", "Can I pay by UPI?"],
+    "answer": "Contact the accounts office for authorised payment methods and instructions."
   },
   {
     "category": "Fee Installments",
-    "questions": ["Can I pay fees in installments?", "Is installment payment available?", "Can I pay fees monthly?", "Can I get more time to pay fees?"],
-    "answer": "Fee installment facilities and extensions depend on college policy. Contact the accounts office to discuss available payment arrangements."
+    "questions": ["Can I pay fees in installments?", "Is installment payment available?", "Can I get more time to pay fees?"],
+    "answer": "Installment facilities depend on college policy. Contact the accounts office."
   },
   {
     "category": "Fee Receipt",
-    "questions": ["How can I get my fee receipt?", "I lost my payment receipt", "Where can I download my fee receipt?", "How do I get a duplicate receipt?"],
-    "answer": "Contact the accounts office with your payment details to request a copy of your fee receipt or payment confirmation."
+    "questions": ["How can I get my fee receipt?", "I lost my payment receipt", "How do I get a duplicate receipt?"],
+    "answer": "Contact the accounts office with your payment details to request a duplicate receipt."
   },
   {
     "category": "Scholarships",
-    "questions": ["Are scholarships available?", "Can I get a scholarship?", "Does NCB provide scholarships?", "Are government scholarships accepted?", "How can I apply for a scholarship?"],
-    "answer": "Eligible students may be able to apply for government or institutional scholarships. Contact the college scholarship section for current schemes, eligibility criteria and application deadlines."
+    "questions": ["Are scholarships available?", "Can I get a scholarship?", "Are government scholarships accepted?", "How can I apply for a scholarship?"],
+    "answer": "Eligible students can enquire about government and institutional scholarships through the college office."
   },
   {
     "category": "Fee Concession",
-    "questions": ["Is fee concession available?", "Can I get a fee reduction?", "Are there fee waivers?", "Can economically weaker students get concessions?"],
-    "answer": "Fee concessions depend on applicable college policies and scholarship eligibility. Contact the accounts or scholarship office with your circumstances and supporting documents."
+    "questions": ["Is fee concession available?", "Can I get a fee reduction?", "Are there fee waivers?"],
+    "answer": "Fee concessions depend on eligibility and college policy. Contact the accounts office."
   },
   {
     "category": "Academic Calendar",
-    "questions": ["Where can I find the academic calendar?", "When does the academic year start?", "What are the semester dates?", "When are holidays?", "Give me the academic schedule"],
-    "answer": "The academic calendar may include semester dates, examinations, holidays and important academic activities. Check official college announcements or contact your department for the latest calendar."
+    "questions": ["Where can I find the academic calendar?", "When does the academic year start?", "What are the semester dates?", "When are holidays?"],
+    "answer": "Check official college announcements or contact your department for the latest academic calendar."
   },
   {
     "category": "College Timings",
-    "questions": ["What are the college timings?", "When does college start?", "When does college end?", "What are the working hours?", "What time should students come?"],
-    "answer": "Class timings can vary by course, semester and timetable. Please check your department's current timetable or ask your class coordinator."
+    "questions": ["What are the college timings?", "When does college start?", "When does college end?"],
+    "answer": "Class timings  usually follow a standard schedule, but may vary by course and semester. Check with your department for specific details."
   },
   {
-    "category": "Class Timetable",
-    "questions": ["Where can I get my timetable?", "What is my class schedule?", "When are my classes?", "How do I check my timetable?", "Is there a timetable for BCA?"],
-    "answer": "Students should obtain their current class timetable from their department, class coordinator or official student communication channel."
+    "category": "BCA Timetable",
+    "questions": ["Where can I get BCA timetable?", "What is BCA CLASS schedule?", "When are BCA classes?", "Is there a timetable for BCA?"],
+    "answer": "Get your latest timetable from your department ."
   },
   {
     "category": "Attendance",
-    "questions": ["Is attendance compulsory?", "How much attendance is required?", "What is the minimum attendance?", "Can I have low attendance?", "What happens if I miss classes?"],
-    "answer": "Students must satisfy the attendance requirements prescribed by the applicable academic regulations. Contact your department for the current minimum requirement and consequences of shortage."
+    "questions": ["Is attendance compulsory?", "How much attendance is required?", "What is the minimum attendance?"],
+    "answer": "Students must meet the attendance requirements prescribed by the applicable university regulations."
   },
   {
     "category": "Attendance Shortage",
-    "questions": ["What if my attendance is low?", "How can I clear attendance shortage?", "Can I get attendance relaxation?", "Will I be allowed to write exams with low attendance?", "What should I do if attendance is short?"],
-    "answer": "If your attendance is short, contact your class coordinator or department immediately. Eligibility for relaxation or examination permission depends on applicable academic regulations."
+    "questions": ["What if my attendance is low?", "How can I clear attendance shortage?", "Will I be allowed to write exams with low attendance?"],
+    "answer": "Contact your class coordinator immediately. Examination eligibility depends on attendance regulations."
   },
   {
     "category": "Leave Application",
-    "questions": ["How do I apply for leave?", "Can I take leave from college?", "Whom should I inform about absence?", "How can I submit a leave letter?", "Do I need a medical certificate for leave?"],
-    "answer": "Inform your class coordinator or department and follow the official leave procedure. Supporting documents may be required depending on the reason and duration of absence."
+    "questions": ["How do I apply for leave?", "Can I take leave from college?", "Whom should I inform about absence?"],
+    "answer": "Inform your class coordinator and follow the department's leave procedure."
   },
   {
     "category": "Examinations",
-    "questions": ["How are exams conducted?", "What is the examination system?", "Does NCB have semester exams?", "When are semester examinations?", "How many exams are conducted?"],
-    "answer": "Examinations and internal assessments are conducted according to the applicable academic and university regulations. Check official examination notifications for the current schedule."
+    "questions": ["How are exams conducted?", "What is the examination system?", "Does NCB have semester exams?"],
+    "answer": "Examinations and internal assessments follow the applicable university regulations."
   },
   {
     "category": "Exam Timetable",
-    "questions": ["When are exams?", "Where can I get the exam timetable?", "How do I check exam dates?", "Is the exam timetable released?", "When is my semester exam?"],
-    "answer": "Exam timetables are announced through official college or university notifications. Contact the examination section or check official announcements for the latest timetable."
+    "questions": ["When are exams?", "Where can I get the exam timetable?", "How do I check exam dates?"],
+    "answer": "Check official college or university notifications for examination dates."
   },
   {
     "category": "Exam Hall Ticket",
-    "questions": ["How do I get my hall ticket?", "Where can I download my admit card?", "When will hall tickets be issued?", "I lost my hall ticket, what should I do?"],
-    "answer": "Contact the examination section or follow the official hall ticket distribution instructions. If your hall ticket is missing, report it to the examination office immediately."
+    "questions": ["How do I get my hall ticket?", "Where can I download my admit card?", "I lost my hall ticket, what should I do?"],
+    "answer": "Contact the examination section for hall ticket information or replacement instructions."
   },
   {
     "category": "Exam Results",
-    "questions": ["Where can I check results?", "How do I check semester results?", "When will results be announced?", "How can I see my marks?", "Are results published?"],
-    "answer": "Check official college or university result announcements. Contact the examination section if you need help accessing your results."
+    "questions": ["Where can I check results?", "How do I check semester results?", "When will results be announced?"],
+    "answer": "Check official college or university result notifications. Contact the examination section for help."
   },
   {
     "category": "Revaluation",
-    "questions": ["Can I apply for revaluation?", "How do I challenge my marks?", "What is the rechecking process?", "Can I request a photocopy of my answer script?", "What is the revaluation fee?"],
-    "answer": "Revaluation and answer-script review procedures depend on the examination regulations. Contact the examination section for application forms, deadlines, fees and eligibility."
+    "questions": ["Can I apply for revaluation?", "How do I challenge my marks?", "What is the rechecking process?"],
+    "answer": "Contact the examination section for revaluation forms, fees and deadlines."
   },
   {
     "category": "Supplementary Exams",
-    "questions": ["What if I fail a subject?", "Are supplementary exams available?", "How can I clear a backlog?", "When can I rewrite a failed subject?", "Can I write arrear exams?"],
-    "answer": "Students who fail a subject should check the applicable supplementary or repeat examination rules. Contact the examination section for registration procedures and examination dates."
+    "questions": ["What if I fail a subject?", "Are supplementary exams available?", "How can I clear a backlog?"],
+    "answer": "Check university supplementary examination rules and contact the examination section."
   },
   {
     "category": "Internal Assessment",
-    "questions": ["What are internal marks?", "How are internal exams conducted?", "How much do internals count?", "What happens if I miss an internal exam?", "How can I check internal marks?"],
-    "answer": "Internal assessment methods and weightage depend on the programme's academic regulations. Ask your department or subject faculty for assessment schedules and marks."
+    "questions": ["What are internal marks?", "How are internal exams conducted?", "How can I check internal marks?"],
+    "answer": "Internal assessment methods and marks depend on your course regulations. Ask your subject faculty."
   },
   {
     "category": "Assignments",
-    "questions": ["Are assignments compulsory?", "Where do I submit assignments?", "When are assignments due?", "How can I get assignment topics?", "Can I submit assignments late?"],
-    "answer": "Assignment requirements and submission deadlines are decided by the respective subject faculty. Contact your lecturer or class coordinator for instructions."
+    "questions": ["Are assignments compulsory?", "Where do I submit assignments?", "When are assignments due?"],
+    "answer": "Ask your subject faculty for assignment topics, submission dates and instructions."
   },
   {
     "category": "Faculty Information",
-    "questions": ["Who are the lecturers?", "How can I find faculty details?", "Who teaches BCA?", "Where can I get the staff list?", "How do I contact a professor?"],
-    "answer": "For current faculty names, subjects and contact information, refer to the official department information or contact the respective department office."
+    "questions": ["Who are the lecturers?", "How can I find faculty details?", "Who teaches BCA?", "Where can I get the staff list?"],
+    "answer": "Contact your department for the current faculty list and staff details."
   },
   {
     "category": "Department Information",
-    "questions": ["Which departments are there?", "Where are the departments located?", "How do I contact my department?", "Who is the head of department?", "Where can I find department details?"],
-    "answer": "Department information, faculty details and department contacts can be obtained from the college office or the relevant department."
+    "questions": ["Which departments are there?", "Where are the departments located?", "How do I contact my department?"],
+    "answer": "Visit your department office or contact the main college office for department information."
   },
   {
     "category": "Class Coordinator",
-    "questions": ["Who is my class coordinator?", "How can I contact my class teacher?", "Who handles my class?", "Whom should I contact about class issues?"],
-    "answer": "Your class coordinator is assigned by your department. Please check with your department office for the current coordinator's name and contact details."
+    "questions": ["Who is my class coordinator?", "How can I contact my class teacher?", "Who handles my class?"],
+    "answer": "Contact your department to find your current class coordinator."
   },
   {
     "category": "Principal",
-    "questions": ["Who is the principal?", "How can I meet the principal?", "Where is the principal's office?", "Can I contact the principal?", "How do I submit a request to the principal?"],
-    "answer": "For the current principal's details, office hours and appointment procedure, please refer to the official college website or contact the administration office."
+    "questions": ["Who is the principal?", "How can I meet the principal?", "Where is the principal's office?"],
+    "answer": "Contact the college administration for the principal's office details and appointment procedure."
   },
   {
     "category": "Library",
-    "questions": ["Does NCB have a library?", "Where is the library?", "Can students borrow books?", "What are the library timings?", "How do I get library membership?", "Are reference books available?"],
-    "answer": "The college provides library facilities for students. Contact the library staff for membership, borrowing rules, available resources and current working hours."
+    "questions": ["Does NCB have a library?", "Where is the library?", "Can students borrow books?", "What are the library timings?"],
+    "answer": "Library facilities are available for students. Contact the librarian for timings and borrowing rules."
   },
   {
     "category": "Library Books",
-    "questions": ["How many books can I borrow?", "How long can I keep a book?", "What if I lose a library book?", "Can I renew a borrowed book?", "How do I return library books?"],
-    "answer": "Book borrowing limits, loan periods, renewal rules and replacement charges are determined by library policy. Please confirm them with the librarian."
+    "questions": ["How many books can I borrow?", "How long can I keep a book?", "What if I lose a library book?", "Can I renew a borrowed book?"],
+    "answer": "Ask the librarian about borrowing limits, renewal rules and replacement charges."
   },
   {
     "category": "Computer Lab",
-    "questions": ["Is there a computer lab?", "Does BCA have computer labs?", "Can students use college computers?", "Are practical computer classes available?", "What software is available in the lab?"],
-    "answer": "Students should contact their department to learn about computer laboratory access, practical schedules, available systems and installed software."
+    "questions": ["Is there a computer lab?", "Does BCA have computer labs?", "Can students use college computers?", "What software is available in the lab?"],
+    "answer": "Contact the BCA department for computer lab facilities, schedules and available software."
   },
   {
     "category": "Internet and Wi-Fi",
-    "questions": ["Is Wi-Fi available in college?", "Can students use campus internet?", "Is free internet available?", "How do I connect to college Wi-Fi?"],
-    "answer": "Please contact the college administration or IT support to confirm student Wi-Fi availability, access permissions and connection instructions."
+    "questions": ["Is Wi-Fi available in college?", "Can students use campus internet?", "How do I connect to college Wi-Fi?"],
+    "answer": "Contact the college administration or IT support to confirm Wi-Fi availability and access."
   },
   {
     "category": "Laboratory Facilities",
-    "questions": ["Does the college have laboratories?", "What labs are available?", "Are practical facilities available?", "Can students use science labs?", "Where are the laboratories?"],
-    "answer": "Laboratory facilities depend on the department and programme. Contact your department to learn about available laboratories and practical session arrangements."
+    "questions": ["Does the college have laboratories?", "What labs are available?", "Are practical facilities available?"],
+    "answer": "Laboratory facilities depend on your course. Contact your department for details."
   },
   {
     "category": "Sports",
-    "questions": ["Are sports available?", "Does NCB have sports facilities?", "Can I join college sports?", "Are sports competitions conducted?", "Who is the sports coordinator?"],
-    "answer": "Students can contact the physical education department for current sports facilities, team selections, competitions, training and participation opportunities."
+    "questions": ["Are sports available?", "Does NCB have sports facilities?", "Can I join college sports?"],
+    "answer": "Contact the physical education department for sports activities and participation details."
   },
   {
     "category": "Gym and Fitness",
-    "questions": ["Does NCB have a gym?", "Are fitness facilities available?", "Can students work out on campus?", "Is there a fitness centre?"],
-    "answer": "Please contact the college administration or physical education department to confirm whether gym or fitness facilities are available to students."
+    "questions": ["Does NCB have a gym?", "Are fitness facilities available?", "Is there a fitness centre?"],
+    "answer": ":)."
   },
   {
     "category": "Cultural Events",
-    "questions": ["Does NCB conduct cultural events?", "Are there college fests?", "What festivals are celebrated?", "Can students participate in cultural programmes?", "Are dance and music competitions conducted?"],
-    "answer": "Students can enquire with the college administration and event coordinators about cultural celebrations, competitions, festivals and upcoming programmes."
+    "questions": ["Does NCB conduct cultural events?", "Are there college fests?", "Can students participate in cultural programmes?"],
+    "answer": "Check college announcements for cultural events, competitions and student programmes."
   },
   {
     "category": "College Fest",
-    "questions": ["When is the college fest?", "Does NCB organise a fest?", "What is the annual fest name?", "How can I participate in the fest?", "Are there intercollege events?"],
-    "answer": "For current fest dates, event names, registration and participation details, check official college announcements or contact the student activity coordinators."
-  },
-  {
-    "category": "Student Clubs",
-    "questions": ["Are student clubs available?", "Can I join a club?", "What clubs are there?", "Are technical clubs available?", "How do I participate in club activities?"],
-    "answer": "Contact your department or student activity coordinators to learn about currently active clubs, membership opportunities and events."
+    "questions": ["When is the college fest?", "Does NCB organise a fest?", "How can I participate in the fest?"],
+    "answer": "Check official college announcements for fest dates, registration and participation details."
   },
   {
     "category": "NSS",
-    "questions": ["Does NCB have NSS?", "Can I join NSS?", "What is the NSS programme?", "Are social service activities conducted?", "How can I participate in NSS?"],
-    "answer": "Please contact the college NSS coordinator or administration to confirm current NSS activities, membership and participation requirements."
+    "questions": ["Does NCB have NSS?", "Can I join NSS?", "What is the NSS programme?"],
+    "answer": "Contact the college NSS coordinator for membership and activity details."
   },
   {
     "category": "NCC",
-    "questions": ["Is NCC available?", "Can I join NCC?", "Does NCB have an NCC unit?", "How can I enrol in NCC?", "Are NCC activities conducted?"],
-    "answer": "Contact the college administration to confirm whether NCC enrolment and activities are currently available and to learn about eligibility."
+    "questions": ["Is NCC available?", "Can I join NCC?", "Does NCB have an NCC unit?"],
+    "answer": "Contact the college administration to confirm current NCC availability and enrolment."
   },
-  {
-    "category": "Student Council",
-    "questions": ["Is there a student council?", "How can I become a student representative?", "Can I become class representative?", "How are student leaders selected?", "Are student elections conducted?"],
-    "answer": "Ask your department or college administration about current student representative roles, selection procedures and student council activities."
-  },
+  
   {
     "category": "Student Events",
-    "questions": ["What events happen in college?", "Are there competitions?", "Can students organise events?", "How can I know about upcoming events?", "Where are event announcements posted?"],
-    "answer": "Upcoming events and student activities are communicated through official college announcements and relevant departments. Contact your coordinator for participation details."
+    "questions": ["What events happen in college?", "Are there competitions?", "How can I know about upcoming events?"],
+    "answer": "Follow official college announcements and department notices for upcoming events."
   },
   {
     "category": "Placements",
-    "questions": ["Does NCB provide placements?", "Are placement opportunities available?", "Does the college have a placement cell?", "Can BCA students get placements?", "Which companies visit the college?"],
-    "answer": "For current placement opportunities, training, recruiter information and placement statistics, contact the college placement cell. Confirm company names and placement figures through official reports."
-  },
-  {
-    "category": "Placement Training",
-    "questions": ["Is placement training provided?", "Does NCB offer interview training?", "Are aptitude classes conducted?", "Can students improve communication skills?", "Is resume training available?"],
-    "answer": "Contact the placement cell to confirm current aptitude training, interview preparation, communication workshops and resume-building programmes."
+    "questions": ["Does NCB provide placements?", "Are placement opportunities available?", "Does the college have a placement cell?", "Can BCA students get placements?"],
+    "answer": "Yes, NCB has a placement cell that assists students with job opportunities and placement information."
   },
   {
     "category": "Internships",
-    "questions": ["Can I do internships?", "Does NCB provide internships?", "Are internship opportunities available?", "Can BCA students get internships?", "Where can I find internship information?"],
-    "answer": "Students should contact their department or placement cell for internship opportunities, industry connections, approvals and internship guidelines."
+    "questions": ["Can I do internships?", "Does NCB provide internships?", "Are internship opportunities available?"],
+    "answer": "Contact your department or placement cell for internship opportunities and guidelines."
   },
   {
     "category": "Higher Studies",
-    "questions": ["Can I study after BCA?", "What can I do after graduation?", "Can I join MCA?", "Can I study MBA after degree?", "What are the postgraduate options?"],
-    "answer": "Graduates can explore eligible postgraduate programmes such as MCA, MBA, M.Sc, M.Com or other relevant courses, depending on their degree and admission requirements."
+    "questions": ["Can I study after BCA?", "What can I do after graduation?", "Can I join MCA?", "Can I study MBA after degree?"],
+    "answer": "Graduates can explore higher studies such as MCA, MBA, M.Sc and other eligible postgraduate programmes."
   },
   {
     "category": "Hostel Facilities",
-    "questions": ["Does NCB have a hostel?", "Is hostel accommodation available?", "Where can I get hostel details?", "What is the hostel fee?", "Are separate hostels available?"],
-    "answer": "Contact the college administration to confirm current hostel availability, accommodation arrangements, eligibility, fees and application procedures."
-  },
-  {
-    "category": "Transport Facilities",
-    "questions": ["Does NCB provide transport?", "Are college buses available?", "Is a bus facility available?", "Can I get college transport?", "What are the bus routes?"],
-    "answer": "Please contact the college office to confirm whether college transport services are available, along with current routes, fees and schedules."
+    "questions": ["Does NCB have a hostel?", "Is hostel accommodation available?", "What is the hostel fee?"],
+    "answer": "Contact the college administration for hostel availability, fees and accommodation details."
   },
   {
     "category": "Public Transport",
-    "questions": ["How can I reach NCB by bus?", "Is there a metro station nearby?", "How do I reach college from Majestic?", "Can I travel by BMTC?", "What is the nearest public transport?"],
-    "answer": "The college is in Basavanagudi, Bengaluru. Students can use Bengaluru's public transport services and navigation apps to plan their journey. Check current BMTC and Namma Metro routes before travelling."
+    "questions": ["How can I reach NCB by bus?", "Is there a metro station nearby?", "How do I reach college from Majestic?", "Can I travel by BMTC?"],
+    "answer": "The college is in Basavanagudi, Bengaluru. In BMTC or Namma Metro services (National college)."
   },
   {
     "category": "Parking",
-    "questions": ["Is parking available?", "Can I park my bike in college?", "Is there two-wheeler parking?", "Can students park cars?", "Where can I park my vehicle?"],
-    "answer": "Please check with the college security or administration for current student parking availability, permitted vehicle types and parking rules."
+    "questions": ["Is parking available?", "Can I park my bike in college?", "Is there two-wheeler parking?"],
+    "answer": "Yes, Two-wheeler parking is available."
   },
   {
     "category": "Canteen",
-    "questions": ["Does NCB have a canteen?", "Is food available in college?", "Where can I eat on campus?", "What are the canteen timings?", "What food is available?"],
-    "answer": "Contact the college administration to confirm current canteen availability, menu, prices and working hours."
+    "questions": ["Does NCB have a canteen?", "Is food available in college?", "What are the canteen timings?"],
+    "answer": "Yes, canteen is available from 9:00AM - 4:00PM."
   },
   {
     "category": "Drinking Water",
-    "questions": ["Is drinking water available?", "Are water facilities available?", "Where can I get drinking water?", "Are water dispensers available?"],
-    "answer": "Students can enquire with the campus administration or security about drinking water facilities and their locations."
+    "questions": ["Is drinking water available?", "Where can I get drinking water?", "Are water dispensers available?"],
+    "answer": "Y can't you bring your own water bottle."
   },
   {
     "category": "Washrooms",
-    "questions": ["Are washrooms available?", "Where are the restrooms?", "Are separate washrooms available?", "Where can I find the washroom?"],
-    "answer": "For washroom locations and accessibility information, please ask campus security or the college office."
+    "questions": ["Are washrooms available?", "Where are the restrooms?", "Where can I find the washroom?"],
+    "answer": "YES, but make sure to use washroom near golden jublee block carefully🫡."
   },
   {
     "category": "Medical Facilities",
-    "questions": ["Is medical help available?", "Does NCB have a first aid facility?", "What should I do during a medical emergency?", "Is there a medical room?"],
-    "answer": "For medical assistance on campus, contact college staff or security immediately. In a serious emergency, contact local emergency services."
+    "questions": ["Is medical help available?", "Does NCB have a first aid facility?", "What should I do during a medical emergency?"],
+    "answer": "Contact college staff or security for medical assistance. For serious emergencies, call 112."
   },
   {
     "category": "Accessibility",
-    "questions": ["Is the campus wheelchair accessible?", "Are facilities available for disabled students?", "Can students with disabilities get assistance?", "Is there accessible entry?"],
-    "answer": "Contact the college administration to confirm available accessibility facilities, support arrangements and assistance for students with disabilities."
+    "questions": ["Is the campus wheelchair accessible?", "Are facilities available for disabled students?", "Can students with disabilities get assistance?"],
+    "answer": "Contact the college administration for accessibility facilities and student support."
   },
   {
     "category": "Anti-Ragging",
-    "questions": ["Is ragging allowed?", "What should I do if someone ragged me?", "How do I report ragging?", "Is there an anti-ragging committee?", "Can I complain about ragging?"],
-    "answer": "Ragging is prohibited. If you experience or witness ragging, report it immediately to college authorities or the appropriate anti-ragging committee. For emergencies, seek immediate help."
+    "questions": ["Is ragging allowed?", "What should I do if someone ragged me?", "How do I report ragging?"],
+    "answer": "Ragging is prohibited. Report any incident immediately to college authorities or the anti-ragging committee."
   },
   {
     "category": "Grievance Redressal",
-    "questions": ["How can I complain?", "Where can I report a problem?", "Is there a grievance cell?", "How do I submit a student complaint?", "Who handles student grievances?"],
-    "answer": "Students can raise concerns with their class coordinator, department or college administration. Ask the office for the official grievance redressal process and contact details."
+    "questions": ["How can I complain?", "Where can I report a problem?", "Is there a grievance cell?"],
+    "answer": "Use the compliant tab in the website or contact your department teachers."
   },
   {
     "category": "Anti-Sexual Harassment",
-    "questions": ["How can I report harassment?", "Is there an internal complaints committee?", "Who handles sexual harassment complaints?", "Where can female students seek help?", "How do I report inappropriate behaviour?"],
-    "answer": "Students facing sexual harassment or inappropriate behaviour should contact the college's Internal Complaints Committee or designated authority. For immediate danger, seek help from campus security or emergency services."
+    "questions": ["How can I report harassment?", "Is there an internal complaints committee?", "Who handles sexual harassment complaints?"],
+    "answer": "Contact the college's authority to report harassment."
   },
   {
     "category": "Student Discipline",
-    "questions": ["What are the college rules?", "What is the discipline policy?", "Are there student conduct rules?", "What happens if I break college rules?", "Where can I read the college regulations?"],
-    "answer": "Students are expected to follow the college code of conduct, academic regulations and campus instructions. Contact the administration for the current official rules."
+    "questions": ["What are the college rules?", "What is the discipline policy?", "Where can I read the college regulations?"],
+    "answer": "Students must follow the college code of conduct and academic regulations. Contact the administration for details."
   },
   {
     "category": "Dress Code",
-    "questions": ["Is there a uniform?", "Is college uniform compulsory?", "Can I wear casual clothes?", "Is there a dress code?", "What should I wear to college?"],
-    "answer": "Dress code requirements may be specified by the college or individual programmes. Confirm the current policy with the administration or your department."
+    "questions": ["Is there a uniform?", "Is college uniform compulsory?", "Can I wear casual clothes?", "Is there a dress code?"],
+    "answer": "There is no college uniform for degree students . Make sure to wear decent clothes."
   },
   {
     "category": "Mobile Phone Rules",
-    "questions": ["Are mobile phones allowed?", "Can I use my phone in class?", "Is phone usage restricted?", "Can I bring a smartphone to college?"],
-    "answer": "Students should follow the college's mobile phone policy and faculty instructions. Contact your department for the current classroom usage rules."
+    "questions": ["Are mobile phones allowed?", "Can I use my phone in class?", "Is phone usage restricted?"],
+    "answer": "YES, moblie phone is allowed in college, use carefully in classes."
   },
   {
     "category": "ID Card",
-    "questions": ["Is an ID card compulsory?", "How can I get my college ID?", "I lost my ID card, what should I do?", "How do I replace my ID card?", "Can I enter college without an ID?"],
-    "answer": "Students should contact the college office to obtain, replace or report a missing student ID card. Carry your valid college identification as required by campus rules."
+    "questions": ["Is an ID card compulsory?", "How can I get my college ID?", "I lost my ID card, what should I do?"],
+    "answer": "Contact the college office to obtain or replace your student ID card."
   },
   {
     "category": "Bonafide Certificate",
-    "questions": ["How can I get a bonafide certificate?", "Where can I apply for a study certificate?", "Who issues bonafide certificates?", "Can I get a student certificate?", "How long does it take to get a bonafide?"],
-    "answer": "Contact the college office to request a bonafide certificate. Confirm the application process, required documents and processing time."
+    "questions": ["How can I get a bonafide certificate?", "Where can I apply for a study certificate?", "Who issues bonafide certificates?"],
+    "answer": "Apply through the college office. Ask about the required documents and processing time."
   },
   {
     "category": "Transfer Certificate",
-    "questions": ["How can I get a TC?", "How do I apply for a transfer certificate?", "Who issues a TC?", "Where can I collect my TC?", "What documents are needed for a TC?"],
-    "answer": "Contact the college office to apply for a Transfer Certificate. The office will explain the required documents, clearance process and applicable fees."
+    "questions": ["How can I get a TC?", "How do I apply for a transfer certificate?", "Who issues a TC?"],
+    "answer": "Contact the college office for the TC application and clearance procedure."
   },
   {
     "category": "Migration Certificate",
-    "questions": ["How do I get a migration certificate?", "Does the college issue migration certificates?", "Where can I apply for migration?", "I need a migration certificate for higher studies"],
-    "answer": "Contact the college examination or administration office to confirm the migration certificate application procedure and whether it is issued by the college or university."
+    "questions": ["How do I get a migration certificate?", "Where can I apply for migration?", "I need a migration certificate for higher studies"],
+    "answer": "Contact the college or university examination office for migration certificate instructions."
   },
   {
     "category": "Character Certificate",
-    "questions": ["Can I get a character certificate?", "How do I apply for a conduct certificate?", "Who issues a character certificate?", "What is the process for getting a conduct certificate?"],
-    "answer": "Students can enquire with the college office about character or conduct certificate applications, eligibility and required documents."
+    "questions": ["Can I get a character certificate?", "How do I apply for a conduct certificate?", "Who issues a character certificate?"],
+    "answer": "Contact the college office to apply for a character or conduct certificate."
   },
   {
     "category": "Course Completion Certificate",
-    "questions": ["How can I get a course completion certificate?", "Does NCB issue course completion certificates?", "Where do I apply after finishing my degree?", "How can I prove that I completed my course?"],
-    "answer": "Contact the examination section or college office to confirm the process for obtaining course completion documentation."
+    "questions": ["How can I get a course completion certificate?", "Does NCB issue course completion certificates?", "Where do I apply after finishing my degree?"],
+    "answer": "Contact the examination section or college office for course completion documents."
   },
   {
     "category": "Duplicate Marks Card",
-    "questions": ["I lost my marks card, what should I do?", "How can I get a duplicate marksheet?", "Where do I apply for another marks card?", "Can I get a replacement marksheet?"],
-    "answer": "Contact the examination section for the duplicate marks card procedure, required documents, fees and processing time."
+    "questions": ["I lost my marks card, what should I do?", "How can I get a duplicate marksheet?", "Can I get a replacement marksheet?"],
+    "answer": "Contact the examination section for duplicate marks card application instructions."
   },
   {
     "category": "Alumni",
-    "questions": ["Does NCB have an alumni association?", "How can I connect with old students?", "Can alumni participate in college events?", "How can I become an alumni member?"],
-    "answer": "Contact the college administration for current alumni association details, registration and alumni activities."
+    "questions": ["Does NCB have an alumni association?", "How can I connect with old students?", "Can alumni participate in college events?"],
+    "answer": "Contact the college administration for alumni association and registration details."
   },
   {
     "category": "Parent Enquiries",
-    "questions": ["Can parents contact the college?", "How can parents meet lecturers?", "Can parents check student progress?", "Who should parents contact?", "Are parent meetings conducted?"],
-    "answer": "Parents can contact the college office or respective department for student-related enquiries, meetings and academic updates, subject to college procedures."
+    "questions": ["Can parents contact the college?", "How can parents meet lecturers?", "Who should parents contact?"],
+    "answer": "Parents can contact the college office or respective department for student-related enquiries."
   },
   {
     "category": "Lost and Found",
-    "questions": ["I lost something in college", "Where is the lost and found section?", "I found someone's belongings", "Whom should I contact about lost items?", "I lost my wallet on campus"],
-    "answer": "Report lost or found belongings to campus security or the college office. Avoid sharing personal or financial information in public."
+    "questions": ["I lost something in college", "Where is the lost and found section?", "I found someone's belongings"],
+    "answer": "Report lost or found belongings to campus security or the college office."
   },
   {
     "category": "Campus Security",
-    "questions": ["Is campus security available?", "Whom should I contact for security help?", "Where is the security office?", "How do I report a safety issue?"],
-    "answer": "For campus safety concerns, contact college security or the administration office. In an emergency, seek immediate assistance from local emergency services."
+    "questions": ["Is campus security available?", "Whom should I contact for security help?", "How do I report a safety issue?"],
+    "answer": "Secure yourself."
   },
   {
     "category": "College Holidays",
-    "questions": ["Is college open today?", "Is today a holiday?", "When is the next college holiday?", "Where can I find holiday announcements?", "Is college closed tomorrow?"],
-    "answer": "College holidays depend on the official academic calendar and announcements. Check the latest college notification or contact your department before travelling."
+    "questions": ["Is college open today?", "Is today a holiday?", "When is the next college holiday?", "Is college closed tomorrow?"],
+    "answer": "Check official college announcements or contact your department for holiday updates."
   },
   {
     "category": "College Events Calendar",
-    "questions": ["What is happening in college today?", "Are there any upcoming events?", "Where can I see the event calendar?", "What programmes are scheduled this month?"],
-    "answer": "Check official college announcements or contact the student activity coordinators for current and upcoming events."
+    "questions": ["What is happening in college today?", "Are there any upcoming events?", "Where can I see the event calendar?"],
+    "answer": "Check official college announcements for upcoming programmes and events."
   },
   {
     "category": "Student Login",
-    "questions": ["Is there a student portal?", "How do I log in to the student portal?", "Where can I access student information?", "I forgot my student portal password", "How do I reset my login?"],
-    "answer": "Please contact the college office or relevant IT support team for the official student portal link, login credentials and password recovery instructions."
-  },
-  {
-    "category": "Online Learning",
-    "questions": ["Are online classes available?", "Does NCB provide online learning?", "Can I attend classes online?", "Are recorded lectures available?"],
-    "answer": "Online learning arrangements depend on the department and current academic instructions. Contact your faculty or department for available online learning resources."
+    "questions": ["Is there a student portal?", "How do I log in to the student portal?", "I forgot my student portal password"],
+    "answer": "Contact the college office or IT support for student portal access and password recovery."
   },
   {
     "category": "College Notifications",
-    "questions": ["Where can I get college updates?", "How do I receive notifications?", "Where are official announcements posted?", "How can I know about important dates?", "Where can I find circulars?"],
-    "answer": "Students should follow official college communication channels, departmental notices and announcements for important updates, deadlines and circulars."
+    "questions": ["Where can I get college updates?", "How do I receive notifications?", "Where can I find circulars?"],
+    "answer": "In your whatsapp clg groups."
   },
   {
     "category": "Official Social Media",
-    "questions": ["Does NCB have Instagram?", "What is the college Instagram page?", "Does the college have Facebook?", "Where can I follow college updates on social media?"],
-    "answer": "Please refer to the official college website for links to verified social media accounts. Avoid relying on unofficial pages for important academic announcements."
+    "questions": ["Does NCB have Instagram?", "What is the college Instagram page?", "Does the college have Facebook?"],
+    "answer": "@nationalcollegebasavanagudi, @_national_college_."
   },
   {
     "category": "Contact Department",
-    "questions": ["How do I contact my department?", "Where is the department office?", "Can I speak to department staff?", "How can I meet my HOD?"],
-    "answer": "Visit the relevant department office or contact the main college office to obtain current department contact details and visiting hours."
-  },
-  {
-    "category": "Industrial Visits",
-    "questions": ["Does NCB organise industrial visits?", "Are company visits conducted?", "Can BCA students go on industrial tours?", "Are educational trips arranged?"],
-    "answer": "Industrial visits and educational trips depend on department plans and academic schedules. Contact your department for upcoming opportunities and permission requirements."
-  },
-  {
-    "category": "Workshops and Seminars",
-    "questions": ["Are workshops conducted?", "Does NCB organise seminars?", "Can I attend technical workshops?", "Are guest lectures available?", "Where can I register for workshops?"],
-    "answer": "Workshops, seminars and guest lectures may be organised by departments and college activity groups. Check official announcements for dates, registration and eligibility."
-  },
-  {
-    "category": "Project Guidance",
-    "questions": ["Can faculty guide my project?", "How do I select a final-year project?", "Where can I get project guidance?", "Does BCA include a final-year project?"],
-    "answer": "Students should contact their department and assigned faculty for project topics, supervision, evaluation criteria and submission guidelines."
-  },
-  {
-    "category": "Entrepreneurship",
-    "questions": ["Does NCB support startups?", "Can students start a business?", "Are entrepreneurship activities available?", "Is startup guidance provided?"],
-    "answer": "Contact the college administration or relevant department to enquire about entrepreneurship programmes, startup guidance, competitions and student business initiatives."
-  },
-  {
-    "category": "International Opportunities",
-    "questions": ["Can NCB students study abroad?", "Are international exchange programmes available?", "Does the college offer foreign university partnerships?", "Can students get international exposure?"],
-    "answer": "Contact the college administration to confirm current international collaborations, exchange programmes and overseas study opportunities."
+    "questions": ["How do I contact my department?", "Where is the department office?", "Can I meet my HOD?"],
+    "answer": "Visit your department office or contact the main college office for assistance."
   },
   {
     "category": "Question Not Found",
-    "questions": ["I have another question", "You didn't answer my question", "I need more information", "Can I speak to someone?", "Your answer is not helpful", "I want to ask something else"],
-    "answer": "Sorry, I couldn't find a verified answer to that question. Please contact the National College Basavanagudi office or visit https://ncbgudi.com/ for assistance."
+    "questions": ["I have another question", "You didn't answer my question", "I need more information", "Can I speak to someone?", "Your answer is not helpful"],
+    "answer": "Sorry, I couldn't find a suitable answer. Please contact the college office or visit https://ncbgudi.com/."
   },
   {
     "category": "Thanks",
     "questions": ["Thank you", "Thanks", "Thank you so much", "That helped", "Great", "Perfect"],
-    "answer": "You're welcome! I'm happy to help. Feel free to ask me anything about National College Basavanagudi."
+    "answer": "You're welcome! Feel free to ask me more about NCB."
   },
   {
     "category": "Goodbye",
     "questions": ["Bye", "Goodbye", "See you", "Talk to you later", "That's all", "Exit"],
-    "answer": "Thank you for using National College Basavanagudi CampusBot. Have a wonderful day!"
+    "answer": "Thank you for using NCB CampusBot. Have a great day!"
   }
 ]

@@ -911,6 +911,6 @@ with faq_tab:
 st.markdown("""
 <div class="admin-footer">
     CAMPUSBOT BY TEAM96<br><br>
-    J PRATHIV RAJ · SHASHANK SIDDHARTH · NATIONAL COLLEGE, BASAVANAGUDI
+    J PRATHIV RAJ · SHASHANK SIDHARTHA · NATIONAL COLLEGE, BASAVANAGUDI
 </div>
 """, unsafe_allow_html=True)

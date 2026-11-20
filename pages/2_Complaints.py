@@ -1,13 +1,12 @@
 
-import json
 import re
 import uuid
 from datetime import datetime
-from pathlib import Path
 
 import streamlit as st
-from styles.theme import apply_theme, brand_header, hero, footer
 
+from styles.theme import apply_theme, brand_header, hero, footer
+from shared_db import create_complaint, get_complaint
 
 
 st.set_page_config(
@@ -18,44 +17,6 @@ st.set_page_config(
 
 apply_theme()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-FILE = BASE_DIR / "complaints.json"
-
-
-
-def load_complaints():
-
-    if not FILE.exists():
-        return []
-
-    try:
-        with FILE.open("r", encoding="utf-8") as file:
-            data = json.load(file)
-
-        return data if isinstance(data, list) else []
-
-    except (json.JSONDecodeError, OSError):
-        st.error("Unable to load complaint records.")
-        return []
-
-
-def save_complaints(data):
-
-    temp_file = FILE.with_suffix(".json.tmp")
-
-    with temp_file.open("w", encoding="utf-8") as file:
-        json.dump(
-            data,
-            file,
-            indent=4,
-            ensure_ascii=False
-        )
-
-    temp_file.replace(FILE)
-
-
-
-
 brand_header()
 
 hero(
@@ -63,8 +24,6 @@ hero(
     "Raise a concern and track its progress. "
     "Choose anonymous or identified submission."
 )
-
-
 
 if "new_complaint_id" not in st.session_state:
     st.session_state.new_complaint_id = None
@@ -75,14 +34,10 @@ if "tracked_complaint" not in st.session_state:
 if "tracking_attempted" not in st.session_state:
     st.session_state.tracking_attempted = False
 
-
-
 submit_tab, track_tab = st.tabs([
     "📝 Submit Complaint",
     "🔍 Track Complaint"
 ])
-
-
 
 with submit_tab:
 
@@ -101,16 +56,10 @@ with submit_tab:
         )
     )
 
-    is_identified = (
-        complaint_type == "Identified Complaint"
-    )
+    is_identified = complaint_type == "Identified Complaint"
 
-    with st.form(
-        "complaint_form",
-        clear_on_submit=True
-    ):
+    with st.form("complaint_form", clear_on_submit=True):
 
-        # Student details only for identified complaints
         if is_identified:
 
             st.markdown("### 👤 Student Information")
@@ -118,7 +67,6 @@ with submit_tab:
             col1, col2 = st.columns(2)
 
             with col1:
-
                 name = st.text_input(
                     "Full Name *",
                     placeholder="Enter your full name"
@@ -130,7 +78,6 @@ with submit_tab:
                 )
 
             with col2:
-
                 phone = st.text_input(
                     "Phone Number *",
                     placeholder="10-digit mobile number",
@@ -147,7 +94,7 @@ with submit_tab:
                 "🔒 Anonymous mode: this form does not ask "
                 "for your name, email address or phone number. "
                 "Avoid including identifying details in your "
-                "description or attachments."
+                "description."
             )
 
         st.divider()
@@ -184,8 +131,6 @@ with submit_tab:
             max_chars=3000
         )
 
-        st.markdown("")
-
         agree = st.checkbox(
             "I confirm that the information provided is accurate."
         )
@@ -195,7 +140,6 @@ with submit_tab:
             use_container_width=True
         )
 
-    
         if submitted:
 
             name = name.strip()
@@ -211,11 +155,7 @@ with submit_tab:
                     "and description."
                 )
 
-            elif is_identified and not all([
-                name,
-                email,
-                phone
-            ]):
+            elif is_identified and not all([name, email, phone]):
 
                 st.error(
                     "Please complete all student information fields."
@@ -239,70 +179,61 @@ with submit_tab:
 
             elif not agree:
 
-                st.warning(
-                    "Please confirm your information."
-                )
+                st.warning("Please confirm your information.")
 
             else:
 
-                complaints = load_complaints()
-
-                complaint_id = (
-                    "NCB-" + uuid.uuid4().hex[:8].upper()
-                )
+                complaint_id = "NCB-" + uuid.uuid4().hex[:8].upper()
 
                 complaint = {
                     "id": complaint_id,
-
                     "complaint_type": (
-                        "Identified" if is_identified
-                        else "Anonymous"
+                        "Identified" if is_identified else "Anonymous"
                     ),
-
                     "name": name,
                     "email": email,
                     "phone": phone,
-
                     "category": category,
                     "subject": subject,
                     "description": description,
-
                     "status": "Submitted",
+                    "assigned_department": "Not Assigned",
                     "admin_remarks": "",
-
-                    "submitted_at": (
-                        datetime.now()
-                        .astimezone()
-                        .isoformat(timespec="seconds")
-                    )
+                    "submitted_at": datetime.now().astimezone().isoformat(
+                        timespec="seconds"
+                    ),
+                    "activity_history": [
+                        {
+                            "timestamp": datetime.now().astimezone().isoformat(
+                                timespec="seconds"
+                            ),
+                            "actor": "Student",
+                            "action": "Complaint Submitted",
+                            "details": "Complaint registered successfully."
+                        }
+                    ]
                 }
 
-                complaints.append(complaint)
-
                 try:
+                    create_complaint(complaint)
 
-                    save_complaints(complaints)
+                    st.session_state.new_complaint_id = complaint_id
 
-                    st.session_state.new_complaint_id = (
-                        complaint_id
+                    st.success(
+                        "Your complaint has been registered successfully!"
                     )
 
-                except OSError:
-
+                except Exception:
                     st.error(
                         "Unable to save your complaint. "
-                        "Please try again."
+                        "Please try again later."
                     )
-
-
 
     if st.session_state.new_complaint_id:
 
         st.divider()
 
-        st.success(
-            "Your complaint has been registered successfully!"
-        )
+        st.success("Your complaint has been registered successfully!")
 
         st.markdown("### 🎉 Complaint Registered")
 
@@ -319,7 +250,6 @@ with submit_tab:
         )
 
         if st.button("Dismiss tracking ID"):
-
             st.session_state.new_complaint_id = None
             st.rerun()
 
@@ -353,22 +283,19 @@ with track_tab:
 
         else:
 
-            complaints = load_complaints()
+            try:
+                result = get_complaint(
+                    tracking_id.strip().upper()
+                )
 
-            result = next(
-                (
-                    complaint
-                    for complaint in complaints
-                    if complaint.get("id", "").lower()
-                    == tracking_id.strip().lower()
-                ),
-                None
-            )
+                st.session_state.tracked_complaint = result
+                st.session_state.tracking_attempted = True
 
-            st.session_state.tracked_complaint = result
-            st.session_state.tracking_attempted = True
-
-
+            except Exception:
+                st.error(
+                    "The tracking service is temporarily unavailable. "
+                    "Please try again later."
+                )
 
     result = st.session_state.tracked_complaint
 
@@ -380,24 +307,14 @@ with track_tab:
 
         st.markdown("### Complaint Overview")
 
-        st.code(
-            result.get("id", "N/A"),
-            language=None
-        )
+        st.code(result.get("id", "N/A"), language=None)
 
         col1, col2 = st.columns(2)
 
         with col1:
 
             st.markdown("**Complaint Type**")
-
-            st.write(
-                result.get(
-                    "complaint_type",
-                    "Identified" if result.get("name")
-                    else "Anonymous"
-                )
-            )
+            st.write(result.get("complaint_type", "N/A"))
 
             st.markdown("**Complaint Category**")
             st.write(result.get("category", "N/A"))
@@ -425,8 +342,6 @@ with track_tab:
 
             else:
                 st.info("Submitted")
-
-
 
         st.markdown("### 📍 Complaint Progress")
 
@@ -462,8 +377,6 @@ with track_tab:
                 else:
                     st.caption(f"○ {stage} — Pending")
 
-
-    
         st.markdown("### 🏢 Department Information")
 
         department = result.get(
@@ -471,24 +384,18 @@ with track_tab:
             "Not yet assigned"
         )
 
-        st.info(
-            f"Assigned Department: {department}"
-        )
+        st.info(f"Assigned Department: {department}")
 
-
-    
         st.markdown("### 💬 Administration Remarks")
 
         remarks = result.get("admin_remarks", "")
 
         if remarks:
             st.write(remarks)
-
         else:
             st.caption(
                 "No administrative remarks have been added yet."
             )
-
 
         st.divider()
 
@@ -497,7 +404,6 @@ with track_tab:
         )
 
     elif st.session_state.tracking_attempted:
-
         st.error(
             "Complaint not found. Please verify your reference ID."
         )
@@ -509,6 +415,5 @@ st.info(
     "complaint text if you wish to remain anonymous. "
     "The hosting platform may still retain technical logs."
 )
-
 
 footer()

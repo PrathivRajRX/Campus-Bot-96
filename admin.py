@@ -1,6 +1,4 @@
 
-import os
-import json
 import hmac
 import csv
 import io
@@ -11,13 +9,11 @@ import streamlit as st
 import pandas as pd
 
 from styles.theme import apply_theme
+from shared_db import list_complaints, update_complaint
 
 
 BASE_DIR = Path(__file__).resolve().parent
-COMPLAINTS_FILE = BASE_DIR / "complaints.json"
 FAQ_FILE = BASE_DIR / "faqs.json"
-
-ADMIN_PASSWORD = os.environ.get("CAMPUSBOT_ADMIN_PASSWORD", "")
 
 STATUSES = ["Submitted", "Under Review", "Resolved", "Rejected"]
 
@@ -120,15 +116,19 @@ def load_json(path, default):
         return default
 
     try:
+        import json
+
         with open(path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-        return data
-    except (json.JSONDecodeError, OSError) as error:
-        st.error(f"Could not read {path.name}: {error}")
+            return json.load(file)
+
+    except (ValueError, OSError):
+        st.error(f"Could not read {path.name}.")
         return default
 
 
 def save_json(path, data):
+    import json
+
     temp_path = path.with_suffix(path.suffix + ".tmp")
 
     try:
@@ -143,18 +143,15 @@ def save_json(path, data):
         return False
 
 
-def load_complaints():
-    data = load_json(COMPLAINTS_FILE, [])
-    return data if isinstance(data, list) else []
-
-
 def load_faqs():
     data = load_json(FAQ_FILE, [])
     return data if isinstance(data, list) else []
 
 
 def now_iso():
-    return datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).astimezone().isoformat(
+        timespec="seconds"
+    )
 
 
 def format_date(value):
@@ -162,8 +159,11 @@ def format_date(value):
         return "Not available"
 
     try:
-        date = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        date = datetime.fromisoformat(
+            str(value).replace("Z", "+00:00")
+        )
         return date.astimezone().strftime("%d %b %Y, %I:%M %p")
+
     except (ValueError, TypeError):
         return str(value)
 
@@ -189,32 +189,21 @@ def metric_card(label, value):
     )
 
 
-def find_complaint(complaints, complaint_id):
-    for complaint in complaints:
-        if complaint.get("id") == complaint_id:
-            return complaint
-    return None
-
-
 def get_complaint_type(complaint):
-    """
-    Identify new and older complaint records.
-    Older records with no personal details are treated as anonymous.
-    """
     complaint_type = complaint.get("complaint_type")
 
     if complaint_type:
         return str(complaint_type).strip().title()
 
-    has_personal_details = any(
+    has_details = any(
         str(complaint.get(field, "")).strip()
         for field in ("name", "email", "phone")
     )
 
-    return "Identified" if has_personal_details else "Anonymous"
+    return "Identified" if has_details else "Anonymous"
 
 
-def add_activity(complaint, action, details):
+def add_activity(complaint, actor, action, details):
     history = complaint.get("activity_history", [])
 
     if not isinstance(history, list):
@@ -222,7 +211,7 @@ def add_activity(complaint, action, details):
 
     history.append({
         "timestamp": now_iso(),
-        "actor": "Admin",
+        "actor": actor,
         "action": action,
         "details": details,
     })
@@ -237,13 +226,16 @@ def faq_questions(faq):
         return [questions] if questions.strip() else []
 
     if isinstance(questions, list):
-        return [str(q) for q in questions if str(q).strip()]
+        return [
+            str(question)
+            for question in questions
+            if str(question).strip()
+        ]
 
     return []
 
 
 def update_faq_questions(faq, questions):
-    # Preserve the existing FAQ question format where possible.
     if "questions" in faq:
         faq["questions"] = questions
     elif "question" in faq and len(questions) == 1:
@@ -253,16 +245,99 @@ def update_faq_questions(faq, questions):
         faq.pop("question", None)
 
 
+def authenticate(username, password):
+    try:
+        admins = st.secrets["admins"]
+        expected_password = admins.get(username)
 
-if not ADMIN_PASSWORD:
-    st.error(
-        "Admin password is not configured. "
-        "Set CAMPUSBOT_ADMIN_PASSWORD before starting the app."
+        if not expected_password:
+            return False
+
+        return hmac.compare_digest(
+            str(password),
+            str(expected_password)
+        )
+
+    except (KeyError, AttributeError):
+        return False
+
+
+def fetch_complaints():
+    try:
+        return list_complaints()
+
+    except Exception as error:
+        st.error(
+            "Unable to connect to the complaints database. "
+            "Check Supabase Secrets and database configuration."
+        )
+        st.caption(str(error))
+        return None
+
+
+def save_complaint_changes(complaint, actor, new_status,
+                           new_department, new_remarks):
+
+    changes = []
+
+    old_status = complaint.get("status", "Submitted")
+    old_department = complaint.get(
+        "assigned_department",
+        "Not Assigned"
     )
-    st.stop()
+    old_remarks = complaint.get("admin_remarks", "")
+
+    if old_status != new_status:
+        changes.append(
+            f"Status changed from {old_status} to {new_status}"
+        )
+
+    if old_department != new_department:
+        changes.append(
+            f"Department changed from {old_department} "
+            f"to {new_department}"
+        )
+
+    if old_remarks != new_remarks:
+        changes.append("Administration remarks updated")
+
+    if not changes:
+        return True
+
+    updated = dict(complaint)
+
+    updated["status"] = new_status
+    updated["assigned_department"] = new_department
+    updated["admin_remarks"] = new_remarks
+
+    add_activity(
+        updated,
+        actor,
+        "Complaint updated",
+        "; ".join(changes)
+    )
+
+    update_complaint(
+        complaint["id"],
+        {
+            "status": updated["status"],
+            "assigned_department": updated["assigned_department"],
+            "admin_remarks": updated["admin_remarks"],
+            "activity_history": updated["activity_history"],
+        }
+    )
+
+    return True
+
+
+# ADMIN LOGIN
 
 if "admin_authenticated" not in st.session_state:
     st.session_state.admin_authenticated = False
+
+if "admin_username" not in st.session_state:
+    st.session_state.admin_username = ""
+
 
 if not st.session_state.admin_authenticated:
 
@@ -278,43 +353,72 @@ if not st.session_state.admin_authenticated:
 
     with center:
         with st.container(border=True):
+
             st.subheader("Administrator Login")
 
             with st.form("admin_login"):
-                password = st.text_input("Admin Password", type="password")
+
+                username = st.text_input(
+                    "Admin Username",
+                    placeholder="Enter your admin username"
+                )
+
+                password = st.text_input(
+                    "Admin Password",
+                    type="password"
+                )
+
                 login = st.form_submit_button(
                     "Sign In",
                     type="primary",
-                    use_container_width=True,
+                    use_container_width=True
                 )
 
             if login:
-                if hmac.compare_digest(password, ADMIN_PASSWORD):
+
+                username = username.strip().lower()
+
+                if authenticate(username, password):
                     st.session_state.admin_authenticated = True
+                    st.session_state.admin_username = username
                     st.rerun()
+
                 else:
-                    st.error("Incorrect password.")
+                    st.error("Incorrect username or password.")
 
     st.stop()
 
 
+current_admin = st.session_state.admin_username
+
+
+# SIDEBAR
+
 with st.sidebar:
+
     st.markdown("## 🎓 CampusBot")
     st.markdown("**ADMIN CONTROL PANEL**")
     st.caption("National College, Basavanagudi")
+
     st.divider()
 
     st.markdown("### Administrator")
-    st.success("Authenticated")
+    st.success(f"Authenticated: {current_admin}")
 
     if st.button("Logout", use_container_width=True):
+
         st.session_state.admin_authenticated = False
+        st.session_state.admin_username = ""
+
         st.rerun()
 
     st.divider()
+
     st.caption("TEAM96 · CAMPUSBOT")
     st.caption("Administration Portal")
 
+
+# HEADER
 
 st.markdown("""
 <div class="admin-hero">
@@ -324,7 +428,14 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-complaints = load_complaints()
+
+# LOAD DATA
+
+complaints = fetch_complaints()
+
+if complaints is None:
+    st.stop()
+
 faqs = load_faqs()
 
 dashboard_tab, complaints_tab, faq_tab = st.tabs([
@@ -334,21 +445,43 @@ dashboard_tab, complaints_tab, faq_tab = st.tabs([
 ])
 
 
+# DASHBOARD
+
 with dashboard_tab:
 
     st.subheader("Dashboard Overview")
+
     st.markdown(
-        '<p class="section-note">Live overview of student grievance activity.</p>',
+        '<p class="section-note">'
+        'Live overview of student grievance activity.'
+        '</p>',
         unsafe_allow_html=True,
     )
 
     total = len(complaints)
-    submitted = sum(c.get("status", "Submitted") == "Submitted" for c in complaints)
-    under_review = sum(c.get("status") == "Under Review" for c in complaints)
-    resolved = sum(c.get("status") == "Resolved" for c in complaints)
-    rejected = sum(c.get("status") == "Rejected" for c in complaints)
+
+    submitted = sum(
+        c.get("status", "Submitted") == "Submitted"
+        for c in complaints
+    )
+
+    under_review = sum(
+        c.get("status") == "Under Review"
+        for c in complaints
+    )
+
+    resolved = sum(
+        c.get("status") == "Resolved"
+        for c in complaints
+    )
+
+    rejected = sum(
+        c.get("status") == "Rejected"
+        for c in complaints
+    )
 
     columns = st.columns(5)
+
     metrics = [
         ("Total Complaints", total),
         ("Submitted", submitted),
@@ -366,30 +499,48 @@ with dashboard_tab:
     chart_col, stats_col = st.columns([1.2, 1])
 
     with chart_col:
+
         st.subheader("Complaint Status")
 
         chart_data = pd.DataFrame({
-            "Status": ["Submitted", "Under Review", "Resolved", "Rejected"],
-            "Complaints": [submitted, under_review, resolved, rejected],
+            "Status": [
+                "Submitted",
+                "Under Review",
+                "Resolved",
+                "Rejected"
+            ],
+            "Complaints": [
+                submitted,
+                under_review,
+                resolved,
+                rejected
+            ],
         })
 
         st.bar_chart(
             chart_data,
             x="Status",
-            y="Complaints",
-            use_container_width=True,
+            y="Complaints"
         )
 
     with stats_col:
+
         st.subheader("Quick Statistics")
 
-        resolution_rate = (resolved / total * 100) if total else 0
+        resolution_rate = (
+            resolved / total * 100
+            if total else 0
+        )
 
-        st.metric("Resolution Rate", f"{resolution_rate:.1f}%")
+        st.metric(
+            "Resolution Rate",
+            f"{resolution_rate:.1f}%"
+        )
+
         st.metric("Total FAQs", len(faqs))
 
         assigned = sum(
-            bool(c.get("assigned_department"))
+            c.get("assigned_department")
             and c.get("assigned_department") != "Not Assigned"
             for c in complaints
         )
@@ -397,38 +548,45 @@ with dashboard_tab:
         st.metric("Complaints Assigned", assigned)
 
     st.divider()
+
     st.subheader("Recent Complaints")
 
     if complaints:
+
         recent = sorted(
             complaints,
             key=lambda c: c.get("submitted_at", ""),
-            reverse=True,
+            reverse=True
         )[:8]
 
-        
         for complaint in recent:
+
             complaint_id = complaint.get("id", "Unknown")
             subject = complaint.get("subject", "No subject")
             status = complaint.get("status", "Submitted")
             complaint_type = get_complaint_type(complaint)
-            color = status_color(status)
 
             with st.expander(
                 f"{complaint_id} · {complaint_type} · {subject}"
             ):
+
                 if complaint_type == "Anonymous":
+
                     st.success("🔒 Anonymous Complaint")
                     st.caption(
                         "No personal contact details were requested."
                     )
+
                 else:
+
                     st.write(
                         f"**Student:** {complaint.get('name', 'N/A')}"
                     )
+
                     st.write(
                         f"**Email:** {complaint.get('email', 'N/A')}"
                     )
+
                     st.write(
                         f"**Phone:** {complaint.get('phone', 'N/A')}"
                     )
@@ -436,55 +594,80 @@ with dashboard_tab:
                 st.write(
                     f"**Category:** {complaint.get('category', 'N/A')}"
                 )
+
                 st.write(
-                    f"**Submitted:** {format_date(complaint.get('submitted_at'))}"
+                    f"**Submitted:** "
+                    f"{format_date(complaint.get('submitted_at'))}"
                 )
+
+                color = status_color(status)
+
                 st.markdown(
-                    f"**Status:** <span style='color:{color};font-weight:700'>{status}</span>",
-                    unsafe_allow_html=True,
+                    f"**Status:** "
+                    f"<span style='color:{color};font-weight:700'>"
+                    f"{status}</span>",
+                    unsafe_allow_html=True
                 )
+
                 st.write(
-                    f"**Department:** {complaint.get('assigned_department', 'Not Assigned')}"
+                    f"**Department:** "
+                    f"{complaint.get('assigned_department', 'Not Assigned')}"
                 )
 
+    else:
+        st.info("There are no complaints yet.")
 
+
+# COMPLAINT MANAGEMENT
 
 with complaints_tab:
 
     st.subheader("Complaint Management")
-    st.caption("Search, review, assign and update student complaints.")
+
+    st.caption(
+        "Search, review, assign and update student complaints."
+    )
 
     if not complaints:
+
         st.info("There are no complaints to manage.")
 
     else:
-        search_col, status_col, category_col = st.columns([2, 1, 1])
+
+        search_col, status_col, category_col = st.columns(
+            [2, 1, 1]
+        )
 
         with search_col:
+
             search_text = st.text_input(
                 "Search complaints",
-                placeholder="Search ID, name, email or subject...",
+                placeholder="Search ID, name, email or subject..."
             ).strip().lower()
 
         with status_col:
+
             selected_status = st.selectbox(
                 "Filter by status",
-                ["All"] + STATUSES,
+                ["All"] + STATUSES
             )
 
         categories = sorted({
-            c.get("category", "Other") for c in complaints
+            c.get("category", "Other")
+            for c in complaints
         })
 
         with category_col:
+
             selected_category = st.selectbox(
                 "Filter by category",
-                ["All"] + categories,
+                ["All"] + categories
             )
 
         filtered = []
 
         for complaint in complaints:
+
             searchable = " ".join([
                 str(complaint.get("id", "")),
                 str(complaint.get("name", "")),
@@ -494,19 +677,26 @@ with complaints_tab:
                 get_complaint_type(complaint),
             ]).lower()
 
-
             if search_text and search_text not in searchable:
                 continue
 
-            if selected_status != "All" and complaint.get("status", "Submitted") != selected_status:
+            if (
+                selected_status != "All"
+                and complaint.get("status", "Submitted") != selected_status
+            ):
                 continue
 
-            if selected_category != "All" and complaint.get("category", "Other") != selected_category:
+            if (
+                selected_category != "All"
+                and complaint.get("category", "Other") != selected_category
+            ):
                 continue
 
             filtered.append(complaint)
 
-        st.caption(f"Showing {len(filtered)} of {len(complaints)} complaints")
+        st.caption(
+            f"Showing {len(filtered)} of {len(complaints)} complaints"
+        )
 
         for complaint in filtered:
 
@@ -520,58 +710,67 @@ with complaints_tab:
 
                 details_col, update_col = st.columns([1, 1])
 
-                
                 with details_col:
+
                     complaint_type = get_complaint_type(complaint)
 
                     st.markdown("### Complaint Submitted By")
 
                     if complaint_type == "Anonymous":
+
                         st.success("🔒 Anonymous Complaint")
-                        st.markdown(
-                            """
-                            **Student identity:** Not provided
 
-                            **Email:** Not provided
+                        st.markdown("""
+                        **Student identity:** Not provided
 
-                            **Phone:** Not provided
-                            """
-                        )
-                        st.caption(
-                            "This complaint was submitted anonymously. "
-                            "The administration cannot contact the "
-                            "student using this record."
-                        )
+                        **Email:** Not provided
+
+                        **Phone:** Not provided
+                        """)
+
                     else:
+
                         st.info("👤 Identified Complaint")
+
                         st.write(
                             f"**Name:** {complaint.get('name') or 'N/A'}"
                         )
+
                         st.write(
                             f"**Email:** {complaint.get('email') or 'N/A'}"
                         )
+
                         st.write(
                             f"**Phone:** {complaint.get('phone') or 'N/A'}"
                         )
 
                     st.divider()
+
                     st.markdown("### Complaint Details")
+
                     st.write(f"**ID:** {complaint_id}")
+
                     st.write(f"**Type:** {complaint_type}")
+
                     st.write(
                         f"**Category:** {complaint.get('category', 'N/A')}"
                     )
+
                     st.write(f"**Subject:** {subject}")
+
                     st.write(
-                        f"**Submitted:** {format_date(complaint.get('submitted_at'))}"
+                        f"**Submitted:** "
+                        f"{format_date(complaint.get('submitted_at'))}"
                     )
+
                     st.markdown("**Description**")
+
                     st.write(
                         complaint.get("description", "No description")
                     )
 
-
                 with update_col:
+
                     st.markdown("### Update Complaint")
 
                     if current_status not in STATUSES:
@@ -579,7 +778,7 @@ with complaints_tab:
 
                     current_department = complaint.get(
                         "assigned_department",
-                        "Not Assigned",
+                        "Not Assigned"
                     )
 
                     if current_department not in DEPARTMENTS:
@@ -590,96 +789,84 @@ with complaints_tab:
                         new_status = st.selectbox(
                             "Complaint Status",
                             STATUSES,
-                            index=STATUSES.index(current_status),
+                            index=STATUSES.index(current_status)
                         )
 
                         new_department = st.selectbox(
                             "Assign Department",
                             DEPARTMENTS,
-                            index=DEPARTMENTS.index(current_department),
+                            index=DEPARTMENTS.index(current_department)
                         )
 
                         new_remarks = st.text_area(
                             "Administration Remarks",
                             value=complaint.get("admin_remarks", ""),
                             height=120,
-                            placeholder="Enter an update for the student...",
+                            placeholder="Enter an update for the student..."
                         )
 
                         save_clicked = st.form_submit_button(
                             "💾 Save Changes",
                             type="primary",
-                            use_container_width=True,
+                            use_container_width=True
                         )
 
                     if save_clicked:
-                        target = find_complaint(complaints, complaint_id)
 
-                        if target is not None:
-                            old_status = target.get("status", "Submitted")
-                            old_department = target.get(
-                                "assigned_department",
-                                "Not Assigned",
+                        try:
+
+                            save_complaint_changes(
+                                complaint,
+                                current_admin,
+                                new_status,
+                                new_department,
+                                new_remarks.strip()
                             )
-                            old_remarks = target.get("admin_remarks", "")
 
-                            changes = []
+                            st.success(
+                                "Complaint updated successfully."
+                            )
 
-                            if old_status != new_status:
-                                changes.append(
-                                    f"Status changed from {old_status} to {new_status}"
-                                )
+                            st.rerun()
 
-                            if old_department != new_department:
-                                changes.append(
-                                    f"Department changed from {old_department} to {new_department}"
-                                )
+                        except Exception as error:
 
-                            if old_remarks != new_remarks.strip():
-                                changes.append("Administration remarks updated")
+                            st.error(
+                                "Unable to update complaint in Supabase."
+                            )
 
-                            target["status"] = new_status
-                            target["assigned_department"] = new_department
-                            target["admin_remarks"] = new_remarks.strip()
-
-                            if changes:
-                                add_activity(
-                                    target,
-                                    "Complaint updated",
-                                    "; ".join(changes),
-                                )
-
-                            if save_json(COMPLAINTS_FILE, complaints):
-                                st.success("Complaint updated successfully.")
-                                st.rerun()
+                            st.caption(str(error))
 
                 st.divider()
+
                 st.markdown("### 🕒 Complaint Activity History")
 
                 history = complaint.get("activity_history", [])
 
                 if history:
+
                     for event in reversed(history):
+
                         st.markdown(
                             f"**{event.get('action', 'Update')}** · "
                             f"{format_date(event.get('timestamp'))}"
                         )
+
                         st.caption(
                             f"{event.get('actor', 'Admin')}: "
                             f"{event.get('details', '')}"
                         )
+
                 else:
-                    st.caption(
-                        "No activity history recorded yet. "
-                        "Changes made from this upgraded version will appear here."
-                    )
+
+                    st.caption("No activity history recorded yet.")
 
         st.divider()
+
         st.subheader("Export Complaints")
 
         csv_buffer = io.StringIO()
 
-        
         fieldnames = [
             "id",
             "complaint_type",
@@ -698,21 +885,23 @@ with complaints_tab:
         export_complaints = []
 
         for complaint in complaints:
+
             row = complaint.copy()
+
             row["complaint_type"] = get_complaint_type(complaint)
 
             if row["complaint_type"] == "Anonymous":
+
                 row["name"] = ""
                 row["email"] = ""
                 row["phone"] = ""
 
             export_complaints.append(row)
 
-
         writer = csv.DictWriter(
             csv_buffer,
             fieldnames=fieldnames,
-            extrasaction="ignore",
+            extrasaction="ignore"
         )
 
         writer.writeheader()
@@ -723,46 +912,49 @@ with complaints_tab:
             data=csv_buffer.getvalue().encode("utf-8-sig"),
             file_name="campusbot_complaints.csv",
             mime="text/csv",
-            use_container_width=True,
+            use_container_width=True
         )
 
+
+# FAQ MANAGEMENT
 
 with faq_tab:
 
     st.subheader("FAQ Management")
-    st.caption("Manage the knowledge base used by the student chatbot.")
+
+    st.caption(
+        "Manage the knowledge base used by the student chatbot."
+    )
 
     st.metric("Total FAQ Entries", len(faqs))
 
-    # ADD FAQ
     with st.expander("➕ Add a New FAQ"):
 
         with st.form("add_faq_form"):
 
             new_category = st.text_input(
                 "Category",
-                placeholder="Example: Admissions",
+                placeholder="Example: Admissions"
             )
 
             new_questions = st.text_area(
                 "Questions (one per line)",
-                height=120,
-                placeholder="How do I apply?\nWhat is the admission process?",
+                height=120
             )
 
             new_answer = st.text_area(
                 "Answer",
-                height=150,
-                placeholder="Enter the answer...",
+                height=150
             )
 
             add_clicked = st.form_submit_button(
                 "➕ Add FAQ",
                 type="primary",
-                use_container_width=True,
+                use_container_width=True
             )
 
         if add_clicked:
+
             questions = [
                 q.strip()
                 for q in new_questions.splitlines()
@@ -770,16 +962,23 @@ with faq_tab:
             ]
 
             if not new_category.strip():
+
                 st.error("Please enter a category.")
+
             elif not questions:
+
                 st.error("Enter at least one question.")
+
             elif not new_answer.strip():
+
                 st.error("Please enter an answer.")
+
             else:
+
                 faqs.append({
                     "category": new_category.strip(),
                     "questions": questions,
-                    "answer": new_answer.strip(),
+                    "answer": new_answer.strip()
                 })
 
                 if save_json(FAQ_FILE, faqs):
@@ -787,28 +986,32 @@ with faq_tab:
                     st.rerun()
 
     st.divider()
+
     st.subheader("Existing FAQs")
 
     faq_search = st.text_input(
         "Search FAQs",
-        placeholder="Search category, question or answer...",
+        placeholder="Search category, question or answer..."
     ).strip().lower()
 
     matching_faqs = []
 
     for index, faq in enumerate(faqs):
+
         questions = faq_questions(faq)
 
         searchable = " ".join([
             str(faq.get("category", "")),
             " ".join(questions),
-            str(faq.get("answer", "")),
+            str(faq.get("answer", ""))
         ]).lower()
 
         if not faq_search or faq_search in searchable:
             matching_faqs.append((index, faq))
 
-    st.caption(f"{len(matching_faqs)} matching FAQ entries")
+    st.caption(
+        f"{len(matching_faqs)} matching FAQ entries"
+    )
 
     for index, faq in matching_faqs:
 
@@ -827,6 +1030,7 @@ with faq_tab:
             st.write(faq.get("answer", "No answer available."))
 
             st.divider()
+
             st.markdown("### Edit FAQ")
 
             with st.form(f"edit_faq_{index}"):
@@ -834,27 +1038,27 @@ with faq_tab:
                 edited_category = st.text_input(
                     "Category",
                     value=faq.get("category", ""),
-                    key=f"edit_category_{index}",
+                    key=f"edit_category_{index}"
                 )
 
                 edited_questions = st.text_area(
                     "Questions (one per line)",
                     value="\n".join(original_questions),
                     height=110,
-                    key=f"edit_questions_{index}",
+                    key=f"edit_questions_{index}"
                 )
 
                 edited_answer = st.text_area(
                     "Answer",
                     value=faq.get("answer", ""),
                     height=130,
-                    key=f"edit_answer_{index}",
+                    key=f"edit_answer_{index}"
                 )
 
                 edit_clicked = st.form_submit_button(
                     "💾 Save FAQ Changes",
                     type="primary",
-                    use_container_width=True,
+                    use_container_width=True
                 )
 
             if edit_clicked:
@@ -866,14 +1070,26 @@ with faq_tab:
                 ]
 
                 if not edited_category.strip():
+
                     st.error("Category cannot be empty.")
+
                 elif not questions:
+
                     st.error("At least one question is required.")
+
                 elif not edited_answer.strip():
+
                     st.error("Answer cannot be empty.")
+
                 else:
+
                     faqs[index]["category"] = edited_category.strip()
-                    update_faq_questions(faqs[index], questions)
+
+                    update_faq_questions(
+                        faqs[index],
+                        questions
+                    )
+
                     faqs[index]["answer"] = edited_answer.strip()
 
                     if save_json(FAQ_FILE, faqs):
@@ -881,31 +1097,34 @@ with faq_tab:
                         st.rerun()
 
             st.divider()
+
             st.markdown("### Delete FAQ")
 
             with st.form(f"delete_faq_{index}"):
 
                 confirm_delete = st.checkbox(
                     "I understand that this FAQ will be permanently deleted.",
-                    key=f"confirm_delete_{index}",
+                    key=f"confirm_delete_{index}"
                 )
 
                 delete_clicked = st.form_submit_button(
                     "🗑️ Delete This FAQ",
-                    use_container_width=True,
+                    use_container_width=True
                 )
 
             if delete_clicked:
 
                 if not confirm_delete:
+
                     st.error("Confirm deletion before continuing.")
+
                 else:
+
                     del faqs[index]
 
                     if save_json(FAQ_FILE, faqs):
                         st.success("FAQ deleted successfully.")
                         st.rerun()
-
 
 
 st.markdown("""
